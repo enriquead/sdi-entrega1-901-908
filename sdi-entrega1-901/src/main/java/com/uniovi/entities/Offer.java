@@ -13,6 +13,8 @@ public class Offer {
 	private String details;
 	private Date upDate;
 	private double price;
+	@OneToMany
+	private User user;
 	
 	public Offer() {
 				

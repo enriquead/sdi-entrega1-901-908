@@ -1,5 +1,7 @@
 package com.uniovi.entities;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -12,6 +14,10 @@ public class User {
 	private String name;
 	private String lastName;
 	private double money;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Offer> offers;
+	
 	
 	
 	private String password;
