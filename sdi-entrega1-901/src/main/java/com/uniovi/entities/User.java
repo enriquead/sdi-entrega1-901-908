@@ -14,6 +14,7 @@ public class User {
 	private String name;
 	private String lastName;
 	private double money;
+	private String role;
 	
 //	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //	private List<Offer> offers;
@@ -90,6 +91,14 @@ public class User {
 
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 	
