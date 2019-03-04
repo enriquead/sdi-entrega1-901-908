@@ -3,6 +3,8 @@ package com.uniovi.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -10,9 +12,6 @@ import com.uniovi.entities.User;
 import com.uniovi.repositories.UsersRepository;
 
 public class UsersService {
-	
-	@Autowired
-	private UsersRepository usersRepository;
 	
 	@PostConstruct
 	public void init() {
