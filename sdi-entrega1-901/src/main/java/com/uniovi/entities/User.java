@@ -1,6 +1,5 @@
 package com.uniovi.entities;
 
-import java.util.List;
 
 import javax.persistence.*;
 
