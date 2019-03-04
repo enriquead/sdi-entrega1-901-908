@@ -17,6 +17,7 @@ public class UsersService {
 	
 	@PostConstruct
 	public void init() {
+		
 	}
 
 	@Autowired
