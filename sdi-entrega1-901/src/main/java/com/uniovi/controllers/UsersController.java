@@ -3,15 +3,19 @@ package com.uniovi.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.uniovi.entities.User;
+import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
+import com.uniovi.validators.SignUpValidator;
 
 @Controller
 public class UsersController {
@@ -19,6 +23,12 @@ public class UsersController {
 	private UsersService usersService;
 	@Autowired
 	private SecurityService securityService;
+	
+	@Autowired
+	private RolesService rolesService;
+	
+	@Autowired
+	private SignUpValidator signUpValidator;
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
@@ -34,7 +44,12 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signup(@ModelAttribute("user") User user, Model model) {
+	public String signup(@ModelAttribute("user") User user, BindingResult result) {
+		signUpValidator.validate(user, result);
+		if (result.hasErrors()) {
+			return "signup";
+		}
+		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
 		securityService.autoLogin(user.getMail(), user.getPasswordConfirm());
 		return "redirect:home";
