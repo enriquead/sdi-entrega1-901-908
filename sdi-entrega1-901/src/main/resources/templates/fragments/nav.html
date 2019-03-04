@@ -1,5 +1,5 @@
 <!-- nav.html -->
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse" color="#009fc6">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -7,28 +7,27 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
+			<img src="/img/w-icon.png" alt="logo" />
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
-			<ul>
+			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
 				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#"> Gestión de ofertas <span
 						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a
-							href="/mark/add">Agregar oferta</a></li>
+						<li><a href="/mark/add">Agregar oferta</a></li>
 						<li><a href="/mark/list">Ver oferta</a></li>
 					</ul></li>
-				<li id="users-menu" class="dropdown"><a
-					class="dropdown-toggle" data-toggle="dropdown" href="#">
-						Gestión de Usuarios <span class="caret"></span>
+				<li id="users-menu" class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#"> Gestión de Usuarios <span
+						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
 						<li><a href="/user/list">Ver Usuarios</a></li>
 						<li><a href="/user/delete">Borrar usuarios</a></li>
 					</ul>
-
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a id="btnLanguage" href="#"
@@ -48,15 +47,18 @@
 								th:text="#{language.es}">Español</span>
 						</a></li>
 					</ul></li>
-				<li><a href="/signup"
-					th:text="#{signup.message}"> <span
+				<li sec:authorize="!isAuthenticated()"><a href="/signup" th:text="#{signup.message}"> <span
 						class="glyphicon glyphicon-user"></span> Registrate
 				</a></li>
-				<li><a href="/login"
-					th:text="#{login.message}"> <span
+				<li sec:authorize="!isAuthenticated()"><a href="/login" th:text="#{login.message}"> <span
 						class="glyphicon glyphicon-log-in"></span> Identifícate
 				</a></li>
+				<li sec:authorize="isAuthenticated()"><a href="/logout"> <span
+						class="glyphicon glyphicon-log-out"></span> Desconectar
+				</a></li>
+
 
 			</ul>
 		</div>
+	</div>
 </nav>
