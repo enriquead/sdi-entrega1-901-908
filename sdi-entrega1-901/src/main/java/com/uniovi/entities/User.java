@@ -15,8 +15,8 @@ public class User {
 	private String lastName;
 	private double money;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Offer> offers;
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//	private List<Offer> offers;
 	
 	
 	
