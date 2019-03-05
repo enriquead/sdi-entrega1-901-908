@@ -5,37 +5,51 @@
 	<!-- Barra de NavegaciÃ³n superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<h2 th:text="#{ident.users}"> </h2>
+		<h2 th:text="#{ident.users}"></h2>
 		<p th:text="#{users.list.message}"></p>
 		<div class="table-responsive">
-		<form class="form-horizontal" method="post" action="/user/delete">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-					    <th th:text="#{ident.delete}"></th>
-						<th>Email</th>
-						<th th:text="#{ident.name}"></th>
-						<th th:text="#{ident.surname}"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="user : ${usersList}">
-						<td><input type="checkbox" th:name="${user.id}"
-							th:value="${user.id}" /></td>
-						<td th:text="${user.mail}">admin@email.com</td>
-						<td th:text="${user.name}">Nombre del usuario</td>
-						<td th:text="${user.lastName}">Apellidos del usuario</td>
+				<table class="table table-hover" th:fragment="userTable"
+					id="userTable">
+					<thead>
+						<tr>
+							<th th:text="#{ident.delete}"></th>
+							<th>Email</th>
+							<th th:text="#{ident.name}"></th>
+							<th th:text="#{ident.surname}"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="user : ${usersList}">
+							<td><input type="checkbox" th:id="${user.id}"></td>
+							<td th:text="${user.mail}">admin@email.com</td>
+							<td th:text="${user.name}">Nombre del usuario</td>
+							<td th:text="${user.lastName}">Apellidos del usuario</td>
 
-					</tr>
-				</tbody>
-			</table>
-			<button th:text="#{ident.delete}" type="submit" class="btn btn-primary"></button>
-			</form>
+						</tr>
+					</tbody>
+				</table>
+				<button id="deleteButton" th:text="#{ident.delete}" type="button"
+					class="btn btn-primary"></button>
+				<script>
+				$('#deleteButton').click(function(){
+			         var ids = '';
+			        $("input:checkbox").each(function(){
+			            var $this = $(this);
+			            if($this.is(":checked")){
+			                var idABorrar = $this.attr("id");
+			                $("#userTable").load('/user/list/delete/?id='+idABorrar);
+			            } 
+			       
+			        });
+			     
+			    });
+				</script>
+				
 		</div>
 	</div>
 	<footer th:replace="fragments/footer" />

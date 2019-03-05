@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.User;
 import com.uniovi.services.RolesService;
@@ -64,12 +64,13 @@ public class UsersController {
 		return "home";
 	}
 	
-	@RequestMapping("/user/delete")
-	public String deleteUsers(Model model) {
-		model.addAttribute("usersList", usersService.getUsers());
-		return "user/delete";
-	}
 	
+	@RequestMapping("/user/list/delete")
+	public String updateList(Model model,@RequestParam Long id){
+		usersService.deleteUser(id);
+		model.addAttribute("usersList", usersService.getUsers());
+		return "user/list :: userTable";
+	}
 	
 	
 }
