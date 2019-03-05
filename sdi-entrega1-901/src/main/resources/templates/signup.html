@@ -12,7 +12,7 @@
 				<label class="control-label col-sm-2" for="mail" th:text="#{mail.message}">Mail:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="mail"
-						placeholder="example1@mail.com" required="true" /> <!--<span
+						th:placeholder="#{mail.placeholder.message}" required="true" /> <!--<span
 						class="text-danger" th:if="${#fields.hasErrors('mail')}"
 						th:errors="*{mail}">-->
 				</div>
@@ -21,7 +21,7 @@
 				<label class="control-label col-sm-2" for="name" th:text="#{ident.name}">Nombre:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="name"
-						placeholder="Ejemplo: Juan" required="true" /> <!--<span
+						th:placeholder="#{name.placeholder.message}" required="true" /> <!--<span
 						class="text-danger" th:if="${#fields.hasErrors('name')}"
 						th:errors="*{name}" />-->
 				</div>
@@ -30,7 +30,7 @@
 				<label class="control-label col-sm-2" for="lastName" th:text="#{ident.surname}">Apellidos:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="lastName"
-						placeholder="Ejemplo: Peréz Almonte" required="true" /> <!--<span
+						th:placeholder="#{surname.placeholder.message}" required="true" /> <!--<span
 						class="text-danger" th:if="${#fields.hasErrors('lastName')}"
 						th:errors="*{lastName}" />-->
 				</div>
@@ -39,7 +39,7 @@
 				<label class="control-label col-sm-2" for="password" th:text="#{password.message}">Password:</label>
 				<div class="col-sm-10">
 					<input type="password" class="form-control" name="password"
-						placeholder="Entre el Password" /> <!--<span class="text-danger"
+						th:placeholder="#{password.placeholder.message}"/> <!--<span class="text-danger"
 						th:if="${#fields.hasErrors('password')}" th:errors="*{password}" />-->
 				</div>
 			</div>
@@ -48,7 +48,7 @@
 					la contraseña:</label>
 				<div class="col-sm-10">
 					<input type="password" class="form-control" name="passwordConfirm"
-						placeholder="Repita el Password" /> <!--<span class="text-danger"
+						th:placeholder="#{passwordConfirm.placeholder.message}" /> <!--<span class="text-danger"
 						th:if="${#fields.hasErrors('passwordConfirm')}"
 						th:errors="*{passwordConfirm}" />-->
 				</div>
