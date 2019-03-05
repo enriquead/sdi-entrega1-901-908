@@ -1,15 +1,15 @@
 package com.uniovi.controllers;
 
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 
 import com.uniovi.entities.User;
 import com.uniovi.services.RolesService;
@@ -33,8 +33,6 @@ public class UsersController {
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
-		List<User> users = usersService.getUsers();
-		System.out.print(users);
 		return "user/list";
 	}
 
@@ -54,6 +52,7 @@ public class UsersController {
 		securityService.autoLogin(user.getMail(), user.getPasswordConfirm());
 		return "redirect:home";
 	}
+	
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
@@ -64,5 +63,16 @@ public class UsersController {
 	public String home(Model model) {
 		return "home";
 	}
-
+	
+	@RequestMapping("/user/delete")
+	public String deleteUsers(Model model) {
+		model.addAttribute("usersList", usersService.getUsers());
+		return "user/delete";
+	}
+	
+	
+	
 }
+
+
+

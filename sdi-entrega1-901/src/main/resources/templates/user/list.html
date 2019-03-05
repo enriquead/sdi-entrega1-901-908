@@ -9,9 +9,11 @@
 		<p>Los usuarios que actualmente figuran en el sistema son los
 			siguientes:</p>
 		<div class="table-responsive">
+		<form class="form-horizontal" method="post" action="/user/delete">
 			<table class="table table-hover">
 				<thead>
 					<tr>
+					    <th>Eliminar</th>
 						<th>email</th>
 						<th>Nombre</th>
 						<th>Apellidos</th>
@@ -24,12 +26,17 @@
 				</thead>
 				<tbody>
 					<tr th:each="user : ${usersList}">
+						<td><input type="checkbox" th:name="${user.id}"
+							th:value="${user.id}" /></td>
 						<td th:text="${user.mail}">71888888X</td>
 						<td th:text="${user.name}">Nombre del usuario</td>
 						<td th:text="${user.lastName}">Apellidos del usuario</td>
+
 					</tr>
 				</tbody>
 			</table>
+			<button type="submit" class="btn btn-primary">Eliminar</button>
+			</form>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer" />

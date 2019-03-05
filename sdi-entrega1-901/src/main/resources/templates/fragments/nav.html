@@ -20,13 +20,12 @@
 						<li><a href="/mark/add">Agregar oferta</a></li>
 						<li><a href="/mark/list">Ver oferta</a></li>
 					</ul></li>
-				<li id="users-menu" class="dropdown"><a class="dropdown-toggle"
+				<li id="users-menu" class="dropdown" sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#"> Gestión de Usuarios <span
 						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/user/list">Ver Usuarios</a></li>
-						<li><a href="/user/delete">Borrar usuarios</a></li>
+						<li><a href="/user/list">Ver/Eliminar Usuarios</a></li>
 					</ul>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
