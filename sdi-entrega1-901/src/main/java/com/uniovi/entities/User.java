@@ -1,6 +1,8 @@
 package com.uniovi.entities;
 
 
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -15,11 +17,19 @@ public class User {
 	private double money;
 	private String role;
 	
-//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//	private List<Offer> offers;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Offer> offers;
 	
 	
 	
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
+	public void setOffers(List<Offer> offers) {
+		this.offers = offers;
+	}
+
 	private String password;
 	@Transient
 	private String passwordConfirm;

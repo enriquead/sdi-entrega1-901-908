@@ -1,10 +1,13 @@
 package com.uniovi.services;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 
 @Service
@@ -15,6 +18,9 @@ public class InsertSampleDataService {
 	
 	@Autowired
 	private RolesService rolesService;
+	
+	@Autowired
+	private OffersService offersService;
 	
 	@PostConstruct
 	public void init() {
@@ -49,7 +55,7 @@ public class InsertSampleDataService {
 		User usuarioABorrarUltimo = new User("borrarult@mail.com","Borrarult" ,"borradoult");
 		usuarioABorrarUltimo.setPassword("123456");
 		usuarioABorrarUltimo.setRole(rolesService.getRoles()[0]);
-	
+		
 		usersService.addUser(usuarioABorrar1);
 		usersService.addUser(userAdmin);
 		usersService.addUser(usuarioABorrar2);
@@ -58,6 +64,7 @@ public class InsertSampleDataService {
 		usersService.addUser(usuarioABorrar4);
 		usersService.addUser(user2);
 		usersService.addUser(usuarioABorrarUltimo);
+		
 	}
 
 }

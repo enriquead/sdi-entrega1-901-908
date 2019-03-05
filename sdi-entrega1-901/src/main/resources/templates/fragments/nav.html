@@ -12,13 +12,13 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
 				<li><a href="/">Home</a></li>
-				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
+				<li id="offers-menu" class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#" th:text="#{offers.message}"> Gestión de ofertas <span
 						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/mark/add" th:text="#{offers.message.drop1}">Agregar oferta</a></li>
-						<li><a href="/mark/list" th:text="#{offers.message.drop2}">Ver oferta</a></li>
+						<li><a href="/offer/add" th:text="#{offers.message.drop1}">Agregar oferta</a></li>
+						<li><a href="/offer/list" th:text="#{offers.message.drop2}">Ver oferta</a></li>
 					</ul></li>
 				<li id="users-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_ADMIN')"><a
