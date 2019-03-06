@@ -7,24 +7,24 @@
 	<nav th:replace="fragments/nav" />
 
 	<div class="container">
-		<h2>Ofertas</h2>
-		<p>Las ofertas que actualmente figuran en el sistema son las
+		<h2  th:text="#{offer.en}">Ofertas</h2>
+		<p th:text="#{offers.list.message}">Las ofertas que actualmente figuran en el sistema son las
 			siguientes:</p>
 		<div class="table-responsive">
-			<table class="table table-hover" th:fragment="offerTable"
-				id="offerTable">
+			<table class="table table-hover" th:fragment="tableOffers"
+				id="tableOffers">
 				<thead>
 					<tr>
 						<th class="col-md-1">id</th>
-						<th>Título</th>
-						<th>Precio</th>
+						<th th:text="#{offer.title}">Título</th>
+						<th th:text="#{price.message}">Precio</th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="offer : ${offersList}">
+					<tr th:each="offer : ${offerList}">
 						<td th:text="${offer.id}">1</td>
 						<td th:text="${offer.title}">Ejercicio 1</td>
 						<td th:text="${offer.price}">10</td>
