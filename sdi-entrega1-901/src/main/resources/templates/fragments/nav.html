@@ -20,6 +20,15 @@
 						<li><a href="/offer/add" th:text="#{offers.message.drop1}">Agregar oferta</a></li>
 						<li><a href="/offer/list" th:text="#{offers.message.drop2}">Ver oferta</a></li>
 					</ul></li>
+					
+				<li id="purchases-menu" class="dropdown" sec:authorize="hasRole('ROLE_ESTANDAR')"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#" th:text="#{purchases.message}"> Gestión de compras <span
+						class="caret"></span>
+				</a>
+					<ul class="dropdown-menu">
+						<li><a href="/purchase/list" th:text="#{purchase.message.drop}">Ver compras</a></li>
+					</ul></li>
+				
 				<li id="users-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_ADMIN')"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#" th:text="#{users.message}">

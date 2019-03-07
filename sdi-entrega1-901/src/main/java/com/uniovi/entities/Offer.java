@@ -18,6 +18,9 @@ public class Offer {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
+	@OneToOne(mappedBy="offer" ,cascade= CascadeType.ALL)
+	private Purchase purchase;
+	
 	public Offer() {
 		
 	}
@@ -26,6 +29,13 @@ public class Offer {
 		super();
 		this.title=title;
 		this.price=price;
+	}
+	
+	public Offer(String title, double price,User user) {
+		super();
+		this.title=title;
+		this.price=price;
+		this.user = user;
 	}
 	
 	public Offer(String title, String details, Date upDate, double price) {
@@ -74,6 +84,22 @@ public class Offer {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Purchase getPurchase() {
+		return purchase;
+	}
+
+	public void setPurchase(Purchase purchase) {
+		this.purchase = purchase;
 	}
 	
 	

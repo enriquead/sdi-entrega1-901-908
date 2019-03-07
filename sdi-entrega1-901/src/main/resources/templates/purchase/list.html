@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de NavegaciÃ³n superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2 th:text="#{ident.purchases}"></h2>
+		<p th:text="#{purchase.list.message}"></p>
+		<div class="table-responsive">
+				<table class="table table-hover" th:fragment="userTable"
+					id="userTable">
+					<thead>
+						<tr>
+							<th th:text="#{ident.title}"></th>
+							<th th:text="#{ident.details}"></th>
+							<th th:text="#{ident.price}+'€'"></th>
+							<th th:text="#{ident.sellermail}"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="purchase : ${purchasesList}">
+							<td th:text="${purchase.offer.title}">Lámpara</td>
+							<td th:text="${purchase.offer.details}">Lámpara multicolor</td>
+							<td th:text="${purchase.offer.price}">100 </td>
+							<td th:text="${purchase.offer.user.mail}">user1@email.com</td>
+
+						</tr>
+					</tbody>
+				</table>
+				
+		</div>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

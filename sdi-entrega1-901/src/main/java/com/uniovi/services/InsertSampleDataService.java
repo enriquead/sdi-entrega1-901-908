@@ -1,6 +1,6 @@
 package com.uniovi.services;
 
-import java.util.Date;
+
 
 import javax.annotation.PostConstruct;
 
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Offer;
+import com.uniovi.entities.Purchase;
 import com.uniovi.entities.User;
 
 @Service
@@ -21,6 +22,9 @@ public class InsertSampleDataService {
 	
 	@Autowired
 	private OffersService offersService;
+	
+	@Autowired
+	private PurchasesService purchasesService;
 	
 	@PostConstruct
 	public void init() {
@@ -56,9 +60,9 @@ public class InsertSampleDataService {
 		usuarioABorrarUltimo.setPassword("123456");
 		usuarioABorrarUltimo.setRole(rolesService.getRoles()[0]);
 		
-		Offer offer1= new Offer("Auriculares", 2.5);
-		Offer offer2=new Offer("Teclado", 20.0);
-		Offer offer3= new Offer("Ratón inalámbrico", 15.4);
+		Offer offer1= new Offer("Auriculares", 2.5,user1);
+		Offer offer2=new Offer("Teclado", 20.0,user1);
+		Offer offer3= new Offer("Ratón inalámbrico", 15.4,user2);
 		
 		usersService.addUser(usuarioABorrar1);
 		usersService.addUser(userAdmin);
@@ -72,6 +76,9 @@ public class InsertSampleDataService {
 		offersService.addOffer(offer1);
 		offersService.addOffer(offer2);
 		offersService.addOffer(offer3);
+		
+		purchasesService.addPurchase(new Purchase(user1, offer3));
+		
 		
 	}
 

@@ -20,15 +20,10 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Offer> offers;
 	
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+	private List<Purchase> purchases;
 	
-	
-	public List<Offer> getOffers() {
-		return offers;
-	}
 
-	public void setOffers(List<Offer> offers) {
-		this.offers = offers;
-	}
 
 	private String password;
 	@Transient
@@ -109,6 +104,24 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	
+	public List<Offer> getOffers() {
+		return offers;
+	}
+
+	public void setOffers(List<Offer> offers) {
+		this.offers = offers;
+	}
+
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
+	
 	
 	
 	
