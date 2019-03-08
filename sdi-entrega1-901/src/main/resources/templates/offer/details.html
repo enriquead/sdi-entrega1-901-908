@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+
+	<!-- Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+
+	<div class="container">
+		<h2>Descripcion de la oferta</h2>
+		<div class="panel panel-default">
+			<div class="panel-heading">Descripción</div>
+			<div class="panel-body"><span th:text="${offer.details}"></span></div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">Puntuación</div>
+			<div class="panel-body"><span th:text="${offer.price}"></span></div>
+		</div>
+	</div>
+
+
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

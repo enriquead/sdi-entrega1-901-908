@@ -28,6 +28,7 @@
 						<td th:text="${offer.id}">1</td>
 						<td th:text="${offer.title}">Ejercicio 1</td>
 						<td th:text="${offer.price}">10</td>
+						<td><a th:href="${'/offer/details/' + offer.id}" th:text="#{details.message}">detalles</a></td>
 					</tr>
 				</tbody>
 			</table>
