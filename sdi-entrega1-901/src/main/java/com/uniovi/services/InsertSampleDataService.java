@@ -60,12 +60,6 @@ public class InsertSampleDataService {
 		usuarioABorrarUltimo.setPassword("123456");
 		usuarioABorrarUltimo.setRole(rolesService.getRoles()[0]);
 		
-		Offer offer1= new Offer("Auriculares", "Auriculares inalámbricos",2.5,user1);
-		Offer offer2=new Offer("Teclado","", 20.0,user1);
-		Offer offer3= new Offer("Ratón inalámbrico","", 15.4,user2);
-		
-		
-		
 		usersService.addUser(usuarioABorrar1);
 		usersService.addUser(userAdmin);
 		usersService.addUser(usuarioABorrar2);
