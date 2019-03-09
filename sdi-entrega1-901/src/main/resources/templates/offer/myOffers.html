@@ -23,6 +23,7 @@
 						<td th:text="${offer.title}">1</td>
 						<td th:text="${offer.price}">Ejercicio 1</td>
 						<td><a th:href="${'/offer/details/' + offer.id}" th:text="#{details.message}">detalles</a></td>
+						<td><a th:href="${'/offer/delete/' + offer.id}" th:text="#{delete.message}">eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -30,6 +31,6 @@
 
 
 	</div>
-	<footer th:replace="fragments/footer" />
 </body>
+<footer th:replace="fragments/footer" />
 </html>

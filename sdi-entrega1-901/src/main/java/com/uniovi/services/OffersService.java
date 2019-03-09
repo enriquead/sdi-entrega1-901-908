@@ -17,10 +17,10 @@ import com.uniovi.repositories.OffersRepository;
 
 @Service
 public class OffersService {
-	
+
 	@PostConstruct
 	public void init() {
-		
+
 	}
 
 	@Autowired
@@ -35,7 +35,7 @@ public class OffersService {
 	public Offer getOffer(Long id) {
 		return offersRepository.findById(id).get();
 	}
-	
+
 	public void addOffer(Offer offer) {
 		offersRepository.save(offer);
 	}
@@ -51,6 +51,10 @@ public class OffersService {
 	public Page<Offer> getOffers(Pageable pageable) {
 		Page<Offer> offers = offersRepository.findAll(pageable);
 		return offers;
+	}
+
+	public void deleteOffer(Long id) {
+		offersRepository.deleteById(id);
 	}
 
 }

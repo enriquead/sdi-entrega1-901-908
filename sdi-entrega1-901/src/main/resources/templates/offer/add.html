@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+
+	<div class="container">
+		<h2 th:text="#{offers.message.drop1}">Añadir oferta</h2>
+		<form class="form-horizontal" method="post" action="/offer/add">
+			<div class="form-group">
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="pwd" th:text="#{offer.title}">Título</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" name="title"
+							th:placeholder="#{title.placeholder.message}" required="true" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="pwd" th:text="#{details.message}">Descripción</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" name="details"
+							th:placeholder="#{details.placeholder.message}" required="true" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="pwd" th:text="#{price.message}">Precio</label>
+					<div class="col-sm-10">
+						<input type="number" class="form-control" name="price"
+							th:placeholder="#{price.placeholder.message}" required="true" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-primary" th:text="#{post.message}">Publicar</button>
+					</div>
+				</div>
+			</div>	
+		</form>
+	</div>
+</body>
+<footer th:replace="fragments/footer"/>
+</html>

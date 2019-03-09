@@ -25,7 +25,8 @@ public class Offer {
 		
 	}
 	
-	public Offer(String title, String details, double price) {
+	public Offer(String title, String details, double price, User user) {
+		super();
 		this.title=title;
 		this.details=details;
 		this.price=price;

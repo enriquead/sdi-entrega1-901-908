@@ -3,8 +3,6 @@ package com.uniovi.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -65,16 +63,6 @@ public class UsersController {
 	public String home(Model model) {
 		return "home";
 	}
-	
-	@RequestMapping(value = { "/myOffers" }, method = RequestMethod.GET)
-	public String myOffers(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String mail = auth.getName();
-		User activeUser = usersService.getUserByMail(mail);
-		model.addAttribute("offerList", activeUser.getOffers());
-		return "myOffers";
-	}
-	
 	
 	@RequestMapping("/user/list/delete")
 	public String updateList(Model model,@RequestParam Long id){
