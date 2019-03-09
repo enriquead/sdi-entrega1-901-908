@@ -41,6 +41,7 @@ public class OffersController {
 		return "offer/details";
 	}
 
+
 	@RequestMapping("/offer/search")
 	public String getSearch(Model model,Pageable pageable, @RequestParam(value = "", required = false) String searchText) {
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
@@ -55,5 +56,6 @@ public class OffersController {
 
 		return "offer/search";
 	}
+
 
 }
