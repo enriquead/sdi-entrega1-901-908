@@ -30,6 +30,12 @@ public class Offer {
 		this.details=details;
 		this.price=price;
 	}
+	public Offer(String title, String details, double price,User user) {
+		this.title=title;
+		this.details=details;
+		this.price=price;
+		this.user=user;
+	}
 	
 	public Offer(String title, double price,User user) {
 		super();

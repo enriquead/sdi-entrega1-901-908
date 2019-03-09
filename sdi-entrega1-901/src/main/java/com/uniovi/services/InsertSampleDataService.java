@@ -60,9 +60,8 @@ public class InsertSampleDataService {
 		usuarioABorrarUltimo.setPassword("123456");
 		usuarioABorrarUltimo.setRole(rolesService.getRoles()[0]);
 		
-		Offer offer1= new Offer("Auriculares", 2.5,user1);
-		Offer offer2=new Offer("Teclado", 20.0,user1);
-		Offer offer3= new Offer("Ratón inalámbrico", 15.4,user2);
+		
+		
 		
 		usersService.addUser(usuarioABorrar1);
 		usersService.addUser(userAdmin);
@@ -73,9 +72,19 @@ public class InsertSampleDataService {
 		usersService.addUser(user2);
 		usersService.addUser(usuarioABorrarUltimo);
 		
+		Offer offer1= new Offer("Auriculares","Auriculares de cable" ,2.5,user1);
+		Offer offer2=new Offer("Teclado","Teclado mecánico nuevo" ,20.0,user1);
+		Offer offer3= new Offer("Ratón inalámbrico","Con Bluetooth 4.0" ,15.4,user2);
+		Offer offer4= new Offer("Ratón antiguo", "Ratón del año 1996", 30, usuarioABorrarUltimo);
+		Offer offer5= new Offer("Auriculares Bluetooth", "Nuevos, sin estrenar", 30,user2);
+		Offer offer6= new Offer("Camiseta running", "Talla M", 19.99,user1);
+		
 		offersService.addOffer(offer1);
 		offersService.addOffer(offer2);
 		offersService.addOffer(offer3);
+		offersService.addOffer(offer4);
+		offersService.addOffer(offer5);
+		offersService.addOffer(offer6);
 		
 		purchasesService.addPurchase(new Purchase(user1, offer3));
 		
