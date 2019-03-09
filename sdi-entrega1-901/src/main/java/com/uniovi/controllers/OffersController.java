@@ -34,5 +34,5 @@ public class OffersController {
 		model.addAttribute("offer", offersService.getOffer(id));
 		return "offer/details";
 	}
-
+	
 }

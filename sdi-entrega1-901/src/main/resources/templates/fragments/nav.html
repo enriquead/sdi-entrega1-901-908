@@ -18,7 +18,8 @@
 				</a>
 					<ul class="dropdown-menu">
 						<li><a href="/offer/add" th:text="#{offers.message.drop1}">Agregar oferta</a></li>
-						<li><a href="/offer/list" th:text="#{offers.message.drop2}">Ver oferta</a></li>
+						<li><a href="/offer/list" th:text="#{offers.message.drop2}">Ver ofertas</a></li>
+						<li><a href="/myOffers" th:text="#{offers.message.drop3}">Mis Ofertas</a></li>
 					</ul></li>
 					
 				<li id="purchases-menu" class="dropdown" sec:authorize="hasRole('ROLE_ESTANDAR')"><a class="dropdown-toggle"
