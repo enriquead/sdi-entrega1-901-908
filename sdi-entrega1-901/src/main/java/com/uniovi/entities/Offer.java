@@ -24,12 +24,7 @@ public class Offer {
 	public Offer() {
 		
 	}
-	
-	public Offer(String title, String details, double price) {
-		this.title=title;
-		this.details=details;
-		this.price=price;
-	}
+
 	public Offer(String title, String details, double price,User user) {
 		this.title=title;
 		this.details=details;

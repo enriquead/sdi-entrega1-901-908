@@ -20,6 +20,7 @@ import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.services.OffersService;
 import com.uniovi.services.PurchasesService;
+
 import com.uniovi.services.UsersService;
 
 @Controller
@@ -30,6 +31,7 @@ public class OffersController {
 	
 	@Autowired
 	private UsersService usersService;
+
 	
 	@Autowired
 	private PurchasesService purchasesService; 
@@ -37,14 +39,24 @@ public class OffersController {
 	
 	
 
+
 	@RequestMapping("/offer/list")
 	public String getList(Model model) {
 		model.addAttribute("offerList", offersService.getOffers());
 		return "offer/list";
 	}
 
+	@RequestMapping(value = "/offer/add")
+	public String getOffer() {
+		return "offer/add";
+	}
+
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
 	public String setOffer(@ModelAttribute Offer offer) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String mail = auth.getName();
+		User activeUser = usersService.getUserByMail(mail);
+		offer.setUser(activeUser);
 		offersService.addOffer(offer);
 		return "redirect:/offer/list";
 	}
@@ -55,6 +67,14 @@ public class OffersController {
 		return "offer/details";
 	}
 
+	@RequestMapping("/offer/delete/{id}")
+	public String deleteOffer(@PathVariable Long id) {
+		offersService.deleteOffer(id);
+		return "redirect:/offer/myOffers";
+	}
+	
+
+	
 
 	@RequestMapping("/offer/search")
 	public String getSearch(Model model,Pageable pageable, @RequestParam(value = "", required = false) String searchText) {

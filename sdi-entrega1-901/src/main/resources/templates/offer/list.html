@@ -15,18 +15,14 @@
 				id="tableOffers">
 				<thead>
 					<tr>
-						<th class="col-md-1">id</th>
 						<th th:text="#{offer.title}">Título</th>
 						<th th:text="#{price.message}">Precio</th>
 						<th th:text="#{seller.message}">Vendedor</th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="offer : ${offerList}">
-						<td th:text="${offer.id}">1</td>
 						<td th:text="${offer.title}">Ejercicio 1</td>
 						<td th:text="${offer.price}">10</td>
 						<td th:text="${offer.user.mail}">10</td>

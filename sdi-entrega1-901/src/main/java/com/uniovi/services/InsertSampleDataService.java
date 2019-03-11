@@ -60,9 +60,6 @@ public class InsertSampleDataService {
 		usuarioABorrarUltimo.setPassword("123456");
 		usuarioABorrarUltimo.setRole(rolesService.getRoles()[0]);
 		
-		
-		
-		
 		usersService.addUser(usuarioABorrar1);
 		usersService.addUser(userAdmin);
 		usersService.addUser(usuarioABorrar2);

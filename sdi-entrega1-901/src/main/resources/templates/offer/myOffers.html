@@ -9,20 +9,19 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th class="col-md-1">id</th>
+
 						<th th:text="#{offer.title}">Título</th>
 						<th th:text="#{price.message}">Precio</th>
-						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="offer : ${offerList}">
-						<td th:text="${offer.id}">1</td>
 						<td th:text="${offer.title}">1</td>
 						<td th:text="${offer.price}">Ejercicio 1</td>
 						<td><a th:href="${'/offer/details/' + offer.id}" th:text="#{details.message}">detalles</a></td>
+						<td><a th:href="${'/offer/delete/' + offer.id}" th:text="#{delete.message}">eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -30,6 +29,7 @@
 
 
 	</div>
-	<footer th:replace="fragments/footer" />
 </body>
+<footer th:replace="fragments/footer" />
+
 </html>
