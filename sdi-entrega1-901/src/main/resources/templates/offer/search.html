@@ -14,7 +14,8 @@
 				<input name="searchText" type="text" class="form-control" size="50"
 					th:placeholder="#{find.placeholder.message}">
 			</div>
-			<button th:text="#{ident.search}"type="submit" class="btn btn-default">Buscar</button>
+			<button th:text="#{ident.search}" type="submit"
+				class="btn btn-default">Buscar</button>
 		</form>
 		<div class="table-responsive">
 			<table class="table table-hover" th:fragment="tableOffers"
@@ -34,11 +35,28 @@
 						<td th:text="${offer.title}">Lavadora</td>
 						<td th:text="${offer.details}">5200 rpm, nueva</td>
 						<td th:text="${offer.price}">10</td>
+						<td th:if="${offer.purchase==null}">
+							<button type="button" th:id="${'buyButton' + offer.id}"
+								th:text=#{ident.buy} class="btn btn-success">Comprar</button>
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+								$("#buyButton[[${offer.id}]]")
+										.click(function() {
+											$.get('/offer/buy?id=[[${offer.id}]]');	
+										});
+								/*]]>*/
+							</script>
+						</td>
+						<td th:unless="${offer.purchase==null}">
+						<button type="button" th:id="${'boughButton' + offer.id}"
+								th:text=#{ident.bought} class="btn btn-danger">Comprado</button>
+						
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<footer th:replace="fragments/pagination"/>
+		<footer th:replace="fragments/pagination" />
 	</div>
 	<footer th:replace="fragments/footer" />
 

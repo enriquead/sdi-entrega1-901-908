@@ -6,9 +6,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.security.core.Authentication;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.UsersRepository;
 
@@ -46,6 +48,12 @@ public class UsersService {
 
 	public void deleteUser(Long id) {
 		usersRepository.deleteById(id);
+	}
+	
+	public User getCurrentUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String mail = auth.getName();
+		return getUserByMail(mail);	
 	}
 
 }

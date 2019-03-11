@@ -66,14 +66,7 @@ public class UsersController {
 		return "home";
 	}
 	
-	@RequestMapping(value = { "/myOffers" }, method = RequestMethod.GET)
-	public String myOffers(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String mail = auth.getName();
-		User activeUser = usersService.getUserByMail(mail);
-		model.addAttribute("offerList", activeUser.getOffers());
-		return "myOffers";
-	}
+	
 	
 	
 	@RequestMapping("/user/list/delete")

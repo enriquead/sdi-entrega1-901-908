@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,13 +17,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.Offer;
+import com.uniovi.entities.User;
 import com.uniovi.services.OffersService;
+import com.uniovi.services.PurchasesService;
+import com.uniovi.services.UsersService;
 
 @Controller
 public class OffersController {
 
 	@Autowired
 	private OffersService offersService;
+	
+	@Autowired
+	private UsersService usersService;
+	
+	@Autowired
+	private PurchasesService purchasesService; 
+	
+	
+	
 
 	@RequestMapping("/offer/list")
 	public String getList(Model model) {
@@ -56,6 +70,24 @@ public class OffersController {
 
 		return "offer/search";
 	}
+	
+	@RequestMapping(value = { "offer/myOffers" }, method = RequestMethod.GET)
+	public String myOffers(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String mail = auth.getName();
+		User activeUser = usersService.getUserByMail(mail);
+		model.addAttribute("offerList", activeUser.getOffers());
+		return "offer/myOffers";
+	}
+	
+	@RequestMapping(value="/offer/buy", method=RequestMethod.GET)
+	public String setBuy(Model model, @RequestParam Long id){
+		Offer boughtOffer = offersService.getOffer(id);
+		User currentUser = usersService.getCurrentUser();
+		purchasesService.addPurchase(currentUser,boughtOffer);
+		return "offer/search";
+	}
+
 
 
 }
