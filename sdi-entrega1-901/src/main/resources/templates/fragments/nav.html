@@ -10,7 +10,7 @@
 			<img src="/img/w-icon.png" alt="logo" />
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/home">Home</a></li>
 				<li id="offers-menu" class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#" th:text="#{offers.message}"> Gestión de ofertas <span
@@ -18,7 +18,6 @@
 				</a>
 					<ul class="dropdown-menu">
 						<li><a href="/offer/add" th:text="#{offers.message.drop1}">Agregar oferta</a></li>
-						<li><a href="/offer/list" th:text="#{offers.message.drop2}">Ver oferta</a></li>
 						<li><a href="/offer/myOffers" th:text="#{offers.message.drop3}">Mis Ofertas</a></li>
 						<li><a href="/offer/search" th:text="#{offers.message.drop4}">Buscar ofertas</a></li>
 
