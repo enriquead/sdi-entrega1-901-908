@@ -38,6 +38,7 @@ public class UsersService {
 	}
 
 	public void addUser(User user) {
+		user.setMoney(100);
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		usersRepository.save(user);
 	}

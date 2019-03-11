@@ -17,9 +17,8 @@
 			<button th:text="#{ident.search}" type="submit"
 				class="btn btn-default">Buscar</button>
 		</form>
-		<div class="table-responsive">
-			<table class="table table-hover" th:fragment="tableOffers"
-				id="tableOffers">
+		<div class="table-responsive" th:fragment="tableOffers" id="tableOffers">
+			<table class="table table-hover" >
 				<span class="text-danger" th:if="${fail==true}"  th:text="#{message.buy.fail}"></span>
 				<thead>
 					<tr>
@@ -56,9 +55,9 @@
 				</tbody>
 				
 			</table>
-			
+			<footer th:replace="fragments/pagination" />
 		</div>
-		<footer th:replace="fragments/pagination" />
+		
 	</div>
 	<footer th:replace="fragments/footer" />
 
