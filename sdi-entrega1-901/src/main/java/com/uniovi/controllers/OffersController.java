@@ -1,5 +1,6 @@
 package com.uniovi.controllers;
 
+
 import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,12 @@ public class OffersController {
 
 	@Autowired
 	private OffersService offersService;
-	
+
 	@Autowired
 	private UsersService usersService;
 
-	
 	@Autowired
-	private PurchasesService purchasesService; 
-	
-	
-	
-
+	private PurchasesService purchasesService;
 
 	@RequestMapping("/offer/list")
 	public String getList(Model model) {
@@ -72,25 +68,23 @@ public class OffersController {
 		offersService.deleteOffer(id);
 		return "redirect:/offer/myOffers";
 	}
-	
-
-	
 
 	@RequestMapping("/offer/search")
-	public String getSearch(Model model,Pageable pageable, @RequestParam(value = "", required = false) String searchText) {
+	public String getSearch(Model model, Pageable pageable,
+			@RequestParam(value = "", required = false) String searchText) {
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 
 		if (searchText != null && !searchText.isEmpty()) {
-			offers = offersService.searchOffersByTitle(pageable,searchText);
+			offers = offersService.searchOffersByTitle(pageable, searchText);
 		} else {
-			offers =  offersService.getOffers(pageable);
+			offers = offersService.getOffers(pageable);
 		}
-		model.addAttribute("offerList",offers.getContent());
+		model.addAttribute("offerList", offers.getContent());
 		model.addAttribute("page", offers);
 
 		return "offer/search";
 	}
-	
+
 	@RequestMapping(value = { "offer/myOffers" }, method = RequestMethod.GET)
 	public String myOffers(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -99,15 +93,15 @@ public class OffersController {
 		model.addAttribute("offerList", activeUser.getOffers());
 		return "offer/myOffers";
 	}
-	
-	@RequestMapping(value="/offer/buy", method=RequestMethod.GET)
-	public String setBuy(Model model, @RequestParam Long id){
+
+	@RequestMapping(value = "/offer/buy/{id}", method = RequestMethod.GET)
+	public String setBuy(Model model, @PathVariable Long id) {
 		Offer boughtOffer = offersService.getOffer(id);
 		User currentUser = usersService.getCurrentUser();
-		purchasesService.addPurchase(currentUser,boughtOffer);
-		return "offer/search";
+		purchasesService.addPurchase(currentUser, boughtOffer);
+		return "redirect:/";
 	}
 
-
+	
 
 }

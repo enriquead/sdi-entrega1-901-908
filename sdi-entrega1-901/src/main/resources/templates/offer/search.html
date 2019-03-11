@@ -39,7 +39,9 @@
 								/*<![CDATA[*/
 								$("#buyButton[[${offer.id}]]")
 										.click(function() {
-											$.get('/offer/buy?id=[[${offer.id}]]');	
+											$.get( "/offer/buy/[[${offer.id}]]", function( data ) {
+												$("#tableOffers").load('/offer/search');
+											});
 										});
 								/*]]>*/
 							</script>
