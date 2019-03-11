@@ -11,17 +11,17 @@
 					<tr>
 
 						<th th:text="#{offer.title}">Título</th>
+						<th th:text="#{details.message}">Detalles</th>
 						<th th:text="#{price.message}">Precio</th>
-						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="offer : ${offerList}">
-						<td th:text="${offer.title}">1</td>
-						<td th:text="${offer.price}">Ejercicio 1</td>
-						<td><a th:href="${'/offer/details/' + offer.id}" th:text="#{details.message}">detalles</a></td>
-						<td><a th:href="${'/offer/delete/' + offer.id}" th:text="#{delete.message}">eliminar</a></td>
+						<td th:text="${offer.title}"></td>
+						<td th:text="${offer.details}"></td>
+						<td th:text="${offer.price}"></td>
+						<td><a th:href="${'/offer/delete/' + offer.id}" th:text="#{delete.message}"></a></td>
 					</tr>
 				</tbody>
 			</table>
