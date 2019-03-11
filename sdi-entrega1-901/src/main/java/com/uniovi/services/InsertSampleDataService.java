@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Offer;
-import com.uniovi.entities.Purchase;
 import com.uniovi.entities.User;
 
 @Service
@@ -83,7 +82,6 @@ public class InsertSampleDataService {
 		offersService.addOffer(offer5);
 		offersService.addOffer(offer6);
 		
-		purchasesService.addPurchase(new Purchase(user1, offer3));
 		
 		
 	}

@@ -40,14 +40,14 @@ public class PurchasesService {
 		purchasesRepository.save(purchase);
 	}
 	
-	public String addPurchase(User user, Offer offer) {
+	public boolean addPurchase(User user, Offer offer) {
 		if(user.getMoney() >= offer.getPrice()) {
 			user.setMoney(user.getMoney()-offer.getPrice());
 			Purchase purchase = new Purchase(user, offer);
 			addPurchase(purchase);
-			return "Compra realizada";
+			return true;
 		}
-		return "Compra fallida";
+		return false;
 	}
 
 }

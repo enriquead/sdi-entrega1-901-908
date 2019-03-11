@@ -20,6 +20,7 @@
 		<div class="table-responsive">
 			<table class="table table-hover" th:fragment="tableOffers"
 				id="tableOffers">
+				<span class="text-danger" th:if="${fail==true}"  th:text="#{message.buy.fail}"></span>
 				<thead>
 					<tr>
 						<th th:text="#{offer.title}">Título</th>
@@ -40,7 +41,7 @@
 								$("#buyButton[[${offer.id}]]")
 										.click(function() {
 											$.get( "/offer/buy/[[${offer.id}]]", function( data ) {
-												$("#tableOffers").load('/offer/search');
+												$("#tableOffers").load('/offer/search/update');
 											});
 										});
 								/*]]>*/
@@ -53,7 +54,9 @@
 						</td>
 					</tr>
 				</tbody>
+				
 			</table>
+			
 		</div>
 		<footer th:replace="fragments/pagination" />
 	</div>

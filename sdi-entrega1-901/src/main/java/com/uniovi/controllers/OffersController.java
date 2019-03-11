@@ -3,6 +3,8 @@ package com.uniovi.controllers;
 
 import java.util.LinkedList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,6 +37,9 @@ public class OffersController {
 
 	@Autowired
 	private PurchasesService purchasesService;
+	
+	@Autowired
+	private HttpSession httpSession;
 
 	@RequestMapping("/offer/list")
 	public String getList(Model model) {
@@ -98,10 +103,23 @@ public class OffersController {
 	public String setBuy(Model model, @PathVariable Long id) {
 		Offer boughtOffer = offersService.getOffer(id);
 		User currentUser = usersService.getCurrentUser();
-		purchasesService.addPurchase(currentUser, boughtOffer);
-		return "redirect:/";
+		boolean exito = purchasesService.addPurchase(currentUser, boughtOffer);
+		httpSession.setAttribute("fail",!exito);
+		return "redirect:/offer/search";
 	}
 
+	@RequestMapping("/offer/search/update")
+	public String getSearch(Model model, Pageable pageable) {
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
+		offers = offersService.getOffers(pageable);
+		
+		model.addAttribute("offerList", offers.getContent());
+		model.addAttribute("page", offers);
+		
+		model.addAttribute("fail",httpSession.getAttribute("fail"));
+
+		return "offer/search :: tableOffers";
+	}
 	
 
 }
