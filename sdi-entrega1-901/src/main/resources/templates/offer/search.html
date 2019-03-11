@@ -25,6 +25,7 @@
 						<th th:text="#{offer.title}">Título</th>
 						<th th:text="#{details.message}">Detalles</th>
 						<th th:text="#{price.message} + ' €'">Precio</th>
+						<th th:text="#{seller.message}">Vendedor</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -32,6 +33,7 @@
 						<td th:text="${offer.title}">Lavadora</td>
 						<td th:text="${offer.details}">5200 rpm, nueva</td>
 						<td th:text="${offer.price}">10</td>
+						<td th:text="${offer.user.mail}">10</td>
 						<td th:if="${offer.purchase==null}">
 							<button type="button" th:id="${'buyButton' + offer.id}"
 								th:text=#{ident.buy} class="btn btn-success">Comprar</button>

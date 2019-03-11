@@ -41,12 +41,6 @@ public class OffersController {
 	@Autowired
 	private HttpSession httpSession;
 
-	@RequestMapping("/offer/list")
-	public String getList(Model model) {
-		model.addAttribute("offerList", offersService.getOffers());
-		return "offer/list";
-	}
-
 	@RequestMapping(value = "/offer/add")
 	public String getOffer() {
 		return "offer/add";
@@ -59,7 +53,7 @@ public class OffersController {
 		User activeUser = usersService.getUserByMail(mail);
 		offer.setUser(activeUser);
 		offersService.addOffer(offer);
-		return "redirect:/offer/list";
+		return "redirect:/offer/search";
 	}
 
 	@RequestMapping("/offer/details/{id}")
