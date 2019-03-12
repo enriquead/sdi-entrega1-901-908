@@ -1,7 +1,5 @@
 package com.uniovi.controllers;
 
-
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,13 +25,13 @@ public class UsersController {
 	private UsersService usersService;
 	@Autowired
 	private SecurityService securityService;
-	
+
 	@Autowired
 	private RolesService rolesService;
-	
+
 	@Autowired
 	private SignUpValidator signUpValidator;
-	
+
 	@Autowired
 	private HttpSession httpSession;
 
@@ -44,22 +42,21 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String signup() {
+	public String signup(Model model) {
+		model.addAttribute("user", new User());
 		return "signup";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signup(@ModelAttribute("user") User user, BindingResult result) {
+	public String signup(@Validated User user, BindingResult result) {
 		signUpValidator.validate(user, result);
 		if (result.hasErrors()) {
 			return "signup";
 		}
-		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
 		securityService.autoLogin(user.getMail(), user.getPasswordConfirm());
 		return "redirect:home";
 	}
-	
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
@@ -71,19 +68,15 @@ public class UsersController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
-		httpSession.setAttribute("loggedUser",activeUser);
+		httpSession.setAttribute("loggedUser", activeUser);
 		return "home";
 	}
-	
+
 	@RequestMapping("/user/list/delete")
-	public String updateList(Model model,@RequestParam Long id){
+	public String updateList(Model model, @RequestParam Long id) {
 		usersService.deleteUser(id);
 		model.addAttribute("usersList", usersService.getUsers());
 		return "user/list :: userTable";
 	}
-	
-	
+
 }
-
-
-
