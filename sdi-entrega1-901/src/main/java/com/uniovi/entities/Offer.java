@@ -1,6 +1,8 @@
 package com.uniovi.entities;
 
-import java.util.Date;
+import java.util.Calendar;
+
+import java.util.GregorianCalendar;
 
 import javax.persistence.*;
 
@@ -74,6 +76,15 @@ public class Offer {
 
 	public String getUpDate() {
 		return upDate;
+	}
+	
+	public void setPresentDate() {
+		Calendar c = new GregorianCalendar();
+		String dia = Integer.toString(c.get(Calendar.DATE));
+		String mes = Integer.toString(c.get(Calendar.MONTH)+1);
+		String annio = Integer.toString(c.get(Calendar.YEAR));
+		String fecha = dia + "/" + mes + "/" + annio;
+		setUpDate(fecha);
 	}
 
 	public void setUpDate(String upDate) {

@@ -1,9 +1,5 @@
 package com.uniovi.controllers;
 
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 import javax.servlet.http.HttpSession;
@@ -55,18 +51,7 @@ public class OffersController {
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
 		offer.setUser(activeUser);
-		
-//		java.util.Date fecha = new Date();
-//		String fecha_completa = Integer.toString(fecha.getDay()) + "/" + Integer.toString(fecha.getMonth()) + "/" + Integer.toString(fecha.getYear());
-//		offer.setUpDate(fecha_completa);
-		
-		Calendar c = new GregorianCalendar();
-		String dia = Integer.toString(c.get(Calendar.DATE));
-		String mes = Integer.toString(c.get(Calendar.MONTH));
-		String annio = Integer.toString(c.get(Calendar.YEAR));
-		String fecha = dia + "/" + mes + "/" + annio;
-		offer.setUpDate(fecha);
-		
+		offer.setPresentDate();
 		offersService.addOffer(offer);
 		return "redirect:/offer/search";
 	}
