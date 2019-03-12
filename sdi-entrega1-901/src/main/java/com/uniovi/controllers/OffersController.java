@@ -56,10 +56,6 @@ public class OffersController {
 		User activeUser = usersService.getUserByMail(mail);
 		offer.setUser(activeUser);
 		
-//		java.util.Date fecha = new Date();
-//		String fecha_completa = Integer.toString(fecha.getDay()) + "/" + Integer.toString(fecha.getMonth()) + "/" + Integer.toString(fecha.getYear());
-//		offer.setUpDate(fecha_completa);
-		
 		Calendar c = new GregorianCalendar();
 		String dia = Integer.toString(c.get(Calendar.DATE));
 		String mes = Integer.toString(c.get(Calendar.MONTH));
