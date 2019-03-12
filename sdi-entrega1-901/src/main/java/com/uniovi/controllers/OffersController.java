@@ -51,6 +51,7 @@ public class OffersController {
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
 		offer.setUser(activeUser);
+		offer.setPresentDate();
 		offersService.addOffer(offer);
 		return "redirect:/offer/search";
 	}
