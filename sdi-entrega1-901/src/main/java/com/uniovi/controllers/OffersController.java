@@ -99,6 +99,7 @@ public class OffersController {
 		User currentUser = usersService.getCurrentUser();
 		boolean exito = purchasesService.addPurchase(currentUser, boughtOffer);
 		httpSession.setAttribute("fail",!exito);
+		httpSession.setAttribute("loggedUser",currentUser);
 		return "redirect:/offer/search";
 	}
 

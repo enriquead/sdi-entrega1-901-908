@@ -68,12 +68,12 @@ public class InsertSampleDataService {
 		usersService.addUser(user2);
 		usersService.addUser(usuarioABorrarUltimo);
 		
-		Offer offer1= new Offer("Auriculares","Auriculares de cable" ,2.5,user1);
+		Offer offer1= new Offer("Auriculares","Auriculares de cable" ,3,user1);
 		Offer offer2=new Offer("Teclado","Teclado mecánico nuevo" ,20.0,user1);
-		Offer offer3= new Offer("Ratón inalámbrico","Con Bluetooth 4.0" ,15.4,user2);
+		Offer offer3= new Offer("Ratón inalámbrico","Con Bluetooth 4.0" ,15,user2);
 		Offer offer4= new Offer("Ratón antiguo", "Ratón del año 1996", 30, usuarioABorrarUltimo);
 		Offer offer5= new Offer("Auriculares Bluetooth", "Nuevos, sin estrenar", 30,user2);
-		Offer offer6= new Offer("Camiseta running", "Talla M", 19.99,user1);
+		Offer offer6= new Offer("Camiseta running", "Talla M", 20,user1);
 		
 		offersService.addOffer(offer1);
 		offersService.addOffer(offer2);

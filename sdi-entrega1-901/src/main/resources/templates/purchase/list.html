@@ -5,6 +5,7 @@
 	<!-- Barra de NavegaciÃ³n superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
+		<div th:include="fragments/userIdent"></div>
 		<h2 th:text="#{ident.purchases}"></h2>
 		<p th:text="#{purchase.list.message}"></p>
 		<div class="table-responsive">

@@ -4,8 +4,8 @@
 <body>
 	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav" />
-
 	<div class="container">
+	<div th:include="fragments/userIdent"></div>
 		<h2 th:text="#{offers.message.drop1}">Añadir oferta</h2>
 		<form class="form-horizontal" method="post" action="/offer/add">
 			<div class="form-group">

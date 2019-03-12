@@ -4,12 +4,12 @@
 <body>
 	<nav th:replace="fragments/nav" />
 	<div class="container" style="text-align: center">
+	
 		<h2 th:text="#{welcome.message}"></h2>
 		<h3 sec:authorize="isAuthenticated()" th:text="#{private.message}"></h3>
-		<p sec:authorize="isAuthenticated()">
-			<span sec:authentication="principal.username" th:inline="text">
-			</span>
-		</p>
+		<div sec:authorize="isAuthenticated()">
+			<div th:include="fragments/userIdent"></div>
+		</div>
 
 	</div>
 	<footer th:replace="fragments/footer" />
