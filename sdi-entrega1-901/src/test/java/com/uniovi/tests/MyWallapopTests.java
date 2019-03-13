@@ -61,7 +61,7 @@ public class MyWallapopTests {
 
 	// -----------------REGISTRO----------------------
 
-	// @Test
+	@Test
 	// PR01. Registro de Usuario con datos válidos
 	public void PR01() {
 		// Vamos al formulario de registro
@@ -74,7 +74,7 @@ public class MyWallapopTests {
 
 	// PR02. Registro de Usuario con datos inválidos (email vacío, nombre vacío,
 	// apellidos vacíos).
-	// @Test
+	@Test
 	public void PR02() {
 		// Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
@@ -95,7 +95,7 @@ public class MyWallapopTests {
 
 	// PR03. Registro de Usuario con datos inválidos (repetición de contraseña
 	// inválida).
-	// @Test
+	@Test
 	public void PR03() {
 		// Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
@@ -108,7 +108,7 @@ public class MyWallapopTests {
 	}
 
 	// PR04. Registro de Usuario con datos inválidos (email existente)
-	// @Test
+	@Test
 	public void PR04() {
 		// Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
@@ -123,7 +123,7 @@ public class MyWallapopTests {
 	// -----------------INICIO DE SESIÓN----------------------
 
 	// PR05. Inicio de sesión con datos válidos (administrador).
-	// @Test
+	@Test
 	public void PR05() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -134,7 +134,7 @@ public class MyWallapopTests {
 	}
 
 	// PR06. Inicio de sesión con datos válidos (usuario estándar).
-	// @Test
+	@Test
 	public void PR06() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -147,7 +147,7 @@ public class MyWallapopTests {
 
 	// PR07. Inicio de sesión con datos inválidos (usuario estándar, campo email y
 	// contraseña vacíos).
-	// @Test
+	@Test
 	public void PR07() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -160,7 +160,7 @@ public class MyWallapopTests {
 	// PR08. Inicio de sesión con datos válidos (usuario estándar, email existente,
 	// pero contraseña
 	// incorrecta).
-	// @Test
+	@Test
 	public void PR08() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -173,7 +173,7 @@ public class MyWallapopTests {
 
 	// PR09. Inicio de sesión con datos inválidos (usuario estándar, email no
 	// existente en la aplicación).
-	// @Test
+	@Test
 	public void PR09() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -193,7 +193,7 @@ public class MyWallapopTests {
 	public void PR10() {
 		//iniciamos sesión
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		// Rellenamos el formulario
+		// Rellenamos el formulario con datos válidos
 		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
 		// Nos desconectamos.
 		PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
