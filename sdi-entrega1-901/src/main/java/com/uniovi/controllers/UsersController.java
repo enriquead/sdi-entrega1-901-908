@@ -53,6 +53,7 @@ public class UsersController {
 		if (result.hasErrors()) {
 			return "signup";
 		}
+		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
 		securityService.autoLogin(user.getMail(), user.getPasswordConfirm());
 		return "redirect:home";
