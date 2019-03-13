@@ -1,4 +1,4 @@
 <span th:text="#{ident.user}"></span>
-<span th:text="${': ' + session.loggedUser.mail}"></span>
+<span th:text="${': ' + session.loggedUser.mail}"></span> ||
 <span th:text="#{ident.money}"  sec:authorize="hasRole('ROLE_ESTANDAR')"></span>
 <span th:text="${': ' + session.loggedUser.money + ' €' }"  sec:authorize="hasRole('ROLE_ESTANDAR')"></span>

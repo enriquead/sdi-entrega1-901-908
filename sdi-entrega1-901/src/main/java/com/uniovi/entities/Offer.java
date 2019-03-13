@@ -1,6 +1,8 @@
 package com.uniovi.entities;
 
-import java.util.Date;
+import java.util.Calendar;
+
+import java.util.GregorianCalendar;
 
 import javax.persistence.*;
 
@@ -11,7 +13,7 @@ public class Offer {
 	private Long id;
 	private String title;
 	private String details;
-	private Date upDate;
+	private String upDate;
 	private double price;
 	
 	@ManyToOne
@@ -39,12 +41,13 @@ public class Offer {
 		this.user = user;
 	}
 	
-	public Offer(String title, String details, Date upDate, double price) {
+	public Offer(String title, String details, String upDate, double price, User user) {
 		super();
 		this.title = title;
 		this.details = details;
 		this.upDate = upDate;
 		this.price = price;
+		this.user=user;
 	}
 
 	public Long getId() {
@@ -71,11 +74,20 @@ public class Offer {
 		this.details = details;
 	}
 
-	public Date getUpDate() {
+	public String getUpDate() {
 		return upDate;
 	}
+	
+	public void setPresentDate() {
+		Calendar c = new GregorianCalendar();
+		String dia = Integer.toString(c.get(Calendar.DATE));
+		String mes = Integer.toString(c.get(Calendar.MONTH)+1);
+		String annio = Integer.toString(c.get(Calendar.YEAR));
+		String fecha = dia + "/" + mes + "/" + annio;
+		setUpDate(fecha);
+	}
 
-	public void setUpDate(Date upDate) {
+	public void setUpDate(String upDate) {
 		this.upDate = upDate;
 	}
 
