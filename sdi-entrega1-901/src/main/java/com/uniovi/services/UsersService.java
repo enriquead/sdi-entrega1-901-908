@@ -30,6 +30,8 @@ public class UsersService {
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
 		usersRepository.findAll().forEach(users::add);
+		User admin = usersRepository.findByMail("admin@email.com");
+		users.remove(admin);
 		return users;
 	}
 

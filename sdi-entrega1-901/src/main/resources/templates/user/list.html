@@ -19,7 +19,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="user : ${usersList}">
+						<tr th:each="user : ${usersList}" th:if ="user.mail!= 'admin@email.com'">
 							<td><input type="checkbox" th:id="${user.id}"></td>
 							<td th:text="${user.mail}">admin@email.com</td>
 							<td th:text="${user.name}">Nombre del usuario</td>

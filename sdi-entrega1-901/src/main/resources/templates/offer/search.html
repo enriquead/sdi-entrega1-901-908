@@ -35,7 +35,7 @@
 						<td th:text="${offer.details}">5200 rpm, nueva</td>
 						<td th:text="${offer.price}">10</td>
 						<td th:text="${offer.user.mail}">10</td>
-						<td th:if="${offer.purchase==null}">
+						<td th:if="${offer.purchase==null and session.loggedUser.mail!=offer.user.mail}">
 							<button type="button" th:id="${'buyButton' + offer.id}"
 								th:text=#{ident.buy} class="btn btn-success">Comprar</button>
 							<script th:inline="javascript">
