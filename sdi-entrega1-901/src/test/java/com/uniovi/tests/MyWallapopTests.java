@@ -1,13 +1,18 @@
 package com.uniovi.tests;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
@@ -189,9 +194,9 @@ public class MyWallapopTests {
 	// PR10. Hacer click en la opción de salir de sesión y comprobar que se redirige
 	// a la página de inicio
 	// de sesión (Login).
-	@Test
+	// @Test
 	public void PR10() {
-		//iniciamos sesión
+		// iniciamos sesión
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario con datos válidos
 		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
@@ -204,11 +209,115 @@ public class MyWallapopTests {
 
 	// PR11. Comprobar que el botón cerrar sesión no está visible si el usuario no
 	// está autenticado.
-	@Test
+	// @Test
 	public void PR11() {
-		//no nos registramos
-		//comprobamos que no está el botón de desconectar
+		// no nos registramos
+		// comprobamos que no está el botón de desconectar
 		PO_View.checkNoElement(driver, "Desconectar");
+	}
+
+	// PR12. Mostrar el listado de usuarios y comprobar que se muestran todos los
+	// que existen en el sistema
+	// @Test
+	public void PR12() {
+
+	}
+
+	// PR13. Ir a la lista de usuarios, borrar el primer usuario de la lista,
+	// comprobar que la lista se actualiza y dicho usuario desaparece.
+	// @Test
+	public void PR13() {
+
+	}
+
+	// PR14. Ir a la lista de usuarios, borrar el último usuario de la lista,
+	// comprobar que la lista se actualiza y dicho usuario desaparece.
+	// @Test
+	public void PR14() {
+
+	}
+
+	// PR15. Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se
+	// actualiza y dichos usuarios desaparecen.
+	// @Test
+	public void PR15() {
+
+	}
+
+	// PR16. Ir al formulario de alta de oferta, rellenarla con datos válidos y
+	// pulsar el botón Submit.
+	// Comprobar que la oferta sale en el listado de ofertas de dicho usuario.
+	@Test
+	public void PR16() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de añadir oferta.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/add')]");
+		// Pinchamos en añadir oferta.
+		elementos.get(0).click();
+		// Ahora vamos a rellenar la oferta.
+		PO_PrivateView.fillFormAddOffer(driver, "Lavadora", "Segunda mano Bosch", "90");
+		// Esperamos a que se muestren los enlaces de paginación la lista de ofertas
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		// Nos vamos a la última página
+		elementos.get(3).click();
+		// Comprobamos que aparece la oferta en la pagina
+		elementos = PO_View.checkElement(driver, "text", "Lavadora");
+		// nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+
+	// PR17.Ir al formulario de alta de oferta, rellenarla con datos inválidos
+	// (campo título vacío) y pulsar el botón Submit. Comprobar que se muestra el
+	// mensaje de campo obligatorio.
+	@Test
+	public void PR17() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de añadir oferta.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/add')]");
+		// Pinchamos en añadir oferta.
+		elementos.get(0).click();
+		// Ahora vamos a rellenar la oferta sin titulo.
+		PO_PrivateView.fillFormAddOffer(driver, " ", "Segunda mano Bosch", "90");
+		// Si dejamos el título vacío, comprobamos que sigue en la misma página de
+		// añadir oferta.
+		PO_View.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+	}
+
+	// PR18. Mostrar el listado de ofertas para dicho usuario y comprobar que se
+	// muestran todas los que existen para este usuario.
+	// @Test
+	public void PR18() {
+
+	}
+
+	// PR19. Ir a la lista de ofertas, borrar la primera oferta de la lista,
+	// comprobar que la lista se actualiza y que la oferta desaparece.
+	// @Test
+	public void PR19() {
+
+	}
+
+	// PR20.Ir a la lista de ofertas, borrar la última oferta de la lista, comprobar
+	// que la lista se actualiza y que la oferta desaparece.
+	// @Test
+	public void PR20() {
+
 	}
 
 }
