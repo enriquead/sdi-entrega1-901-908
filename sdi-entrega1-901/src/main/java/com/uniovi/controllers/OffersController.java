@@ -114,6 +114,13 @@ public class OffersController {
 		httpSession.setAttribute("loggedUser",currentUser);
 		return "redirect:/offer/search";
 	}
+	
+	@RequestMapping("/home/update")
+	public String getHome(Model model) {
+		model.addAttribute("offerList",offersService.getPromoted());
+
+		return "/home :: tableOffers";
+	}
 
 	@RequestMapping("/offer/search/update")
 	public String getSearch(Model model, Pageable pageable) {
