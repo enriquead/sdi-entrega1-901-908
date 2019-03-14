@@ -16,6 +16,7 @@ import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.util.SeleniumUtils;
 
 //Ordenamos las pruebas por el nombre del método
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -247,7 +248,7 @@ public class MyWallapopTests {
 	// PR16. Ir al formulario de alta de oferta, rellenarla con datos válidos y
 	// pulsar el botón Submit.
 	// Comprobar que la oferta sale en el listado de ofertas de dicho usuario.
-	@Test
+	// @Test
 	public void PR16() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -277,7 +278,7 @@ public class MyWallapopTests {
 	// PR17.Ir al formulario de alta de oferta, rellenarla con datos inválidos
 	// (campo título vacío) y pulsar el botón Submit. Comprobar que se muestra el
 	// mensaje de campo obligatorio.
-	@Test
+	// @Test
 	public void PR17() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -297,12 +298,33 @@ public class MyWallapopTests {
 		// Si dejamos el título vacío, comprobamos que sigue en la misma página de
 		// añadir oferta.
 		PO_View.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		// nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 
 	// PR18. Mostrar el listado de ofertas para dicho usuario y comprobar que se
 	// muestran todas los que existen para este usuario.
-	// @Test
+	@Test
 	public void PR18() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de mis ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/myOffers')]");
+		// Pinchamos en mis ofertas.
+		elementos.get(0).click();
+		// Cargamos el número de elementos de la tabla mis ofertas.
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		// Comprobamos que es igual al numero de productos del usuario actual (3)
+		assertTrue(elementos.size() == 3);
+		// nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 
 	}
 
