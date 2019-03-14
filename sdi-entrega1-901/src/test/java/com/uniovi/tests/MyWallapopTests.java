@@ -100,7 +100,7 @@ public class MyWallapopTests {
 		// Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "santi@email.es", "Miguel", "García", "123456", "123456");
 		// Comprobamos que entramos en la sección privada
-		PO_View.checkElement(driver, "text", "Usuario");
+		PO_View.checkElement(driver, "text", "santi@email.es");
 	}
 
 	// PR02. Registro de Usuario con datos inválidos (email vacío, nombre vacío,

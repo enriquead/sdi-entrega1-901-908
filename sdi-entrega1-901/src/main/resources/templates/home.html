@@ -4,11 +4,37 @@
 <body>
 	<nav th:replace="fragments/nav" />
 	<div class="container" style="text-align: center">
-	
+
 		<h2 th:text="#{welcome.message}"></h2>
 		<h3 sec:authorize="isAuthenticated()" th:text="#{private.message}"></h3>
 		<div sec:authorize="isAuthenticated()">
 			<div th:include="fragments/userIdent"></div>
+
+			<h2 th:text="#{promoted.offers.message}">Ofertas Destacadas</h2>
+			<div class="table-responsive" th:fragment="tableOffers" id="tableOffers">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+
+							<th th:text="#{offer.title}">Título</th>
+							<th th:text="#{details.message}">Detalles</th>
+							<th th:text="#{date.message}">Fecha</th>
+							<th th:text="#{price.message}">Precio</th>
+							<th th:text="#{seller.message}">Vendedor</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="offer : ${offerList}">
+							<td th:text="${offer.title}"></td>
+							<td th:text="${offer.details}"></td>
+							<td th:text="${offer.upDate}"></td>
+							<td th:text="${offer.price}"></td>
+							<td th:text="${offer.user.mail}"></td>
+							<td th:if="${offer.purchase==null and session.loggedUser.mail!=offer.user.mail}">
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 	</div>

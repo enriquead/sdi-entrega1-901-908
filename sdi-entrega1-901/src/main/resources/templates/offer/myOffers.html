@@ -4,9 +4,9 @@
 <body>
 	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<div th:include="fragments/userIdent"></div>
 		<h2 th:text="#{offers.message.drop3}">Mis Ofertas</h2>
-		<div class="table-responsive">
+		<div class="table-responsive" th:fragment="tableOffers" id="tableOffers">
+		<div th:include="fragments/userIdent"></div>
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -25,6 +25,26 @@
 						<td th:text="${offer.upDate}"></td>
 						<td th:text="${offer.price}"></td>
 						<td><a th:href="${'/offer/delete/' + offer.id}" th:text="#{delete.message}"></a></td>
+						<td th:if="${offer.promoted==false}">
+							<button type="button" th:id="${'promoteButton' + offer.id}"
+								th:text=#{promote.message} class="btn btn-default">Destacar</button>
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+								$("#promoteButton[[${offer.id}]]")
+										.click(function() {
+											$.get( "/offer/[[${offer.id}]]/promote", function( data ) {
+												$("#tableOffers").load('/offer/myOffers/update');
+											});
+										});
+								/*]]>*/
+							</script>
+						</td>
+						<td th:unless="${offer.promoted==false}">
+						<button type="button" th:id="${'promotedButton' + offer.id}"
+								th:text=#{promoted.message} class="btn btn-success">Destacado</button>
+						
+						</td>
+						
 					</tr>
 				</tbody>
 			</table>

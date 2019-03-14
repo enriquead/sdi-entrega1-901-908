@@ -15,6 +15,7 @@ public class Offer {
 	private String details;
 	private String upDate;
 	private double price;
+	private boolean promoted = false;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -48,6 +49,14 @@ public class Offer {
 		this.upDate = upDate;
 		this.price = price;
 		this.user=user;
+	}
+
+	public boolean isPromoted() {
+		return promoted;
+	}
+
+	public void setPromoted(boolean promoted) {
+		this.promoted = promoted;
 	}
 
 	public Long getId() {

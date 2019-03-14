@@ -1,6 +1,7 @@
 package com.uniovi.controllers;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -126,6 +127,24 @@ public class OffersController {
 
 		return "offer/search :: tableOffers";
 	}
+	
+	@RequestMapping(value = "/offer/{id}/promote", method = RequestMethod.GET)
+	public String setPromotedTrue(Model model, @PathVariable Long id) {
+		User activeUser = usersService.getCurrentUser();
+		offersService.setOfferPromoted(activeUser,true, id);
+		return "redirect:/offer/myOffers";
+	}
+	
+	@RequestMapping("/offer/myOffers/update")
+	public String getOffers(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String mail = auth.getName();
+		User activeUser = usersService.getUserByMail(mail);
+		model.addAttribute("offerList", activeUser.getOffers());
+
+		return "offer/myOffers :: tableOffers";
+	}
+	
 	
 
 }

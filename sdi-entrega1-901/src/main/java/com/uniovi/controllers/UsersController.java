@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.User;
+import com.uniovi.services.OffersService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
@@ -34,6 +35,9 @@ public class UsersController {
 
 	@Autowired
 	private HttpSession httpSession;
+	
+	@Autowired
+	private OffersService offersService;
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
@@ -70,6 +74,8 @@ public class UsersController {
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
 		httpSession.setAttribute("loggedUser", activeUser);
+		
+		model.addAttribute("offerList", offersService.getPromoted());
 		return "home";
 	}
 
