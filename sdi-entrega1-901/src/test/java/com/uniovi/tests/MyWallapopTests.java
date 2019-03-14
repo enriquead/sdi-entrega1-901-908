@@ -2,6 +2,8 @@ package com.uniovi.tests;
 
 import static org.junit.Assert.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 import org.junit.*;
@@ -10,6 +12,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.uniovi.entities.Offer;
+import com.uniovi.entities.User;
+import com.uniovi.repositories.OffersRepository;
+import com.uniovi.repositories.UsersRepository;
+import com.uniovi.services.OffersService;
+import com.uniovi.services.RolesService;
+import com.uniovi.services.UsersService;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
@@ -22,6 +31,21 @@ import com.uniovi.tests.util.SeleniumUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class MyWallapopTests {
+	@Autowired
+	private UsersService usersService;
+	
+	@Autowired
+	private OffersService offersService;
+	
+	@Autowired
+	private RolesService rolesService;
+	
+	@Autowired
+	private UsersRepository usersRepository;
+	
+	@Autowired
+	private OffersRepository offersRepository;
+
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Users\\media service\\Desktop\\SDI\\p5\\FirefoxPortable\\App\\Firefox64\\firefox.exe";
@@ -45,6 +69,7 @@ public class MyWallapopTests {
 	// Antes de cada prueba se navega al URL home de la aplicaciónn
 	@Before
 	public void setUp() {
+		//initdb();
 		driver.navigate().to(URL);
 	}
 
@@ -67,8 +92,8 @@ public class MyWallapopTests {
 
 	// -----------------REGISTRO----------------------
 
-//	@Test
 	// PR01. Registro de Usuario con datos válidos
+	@Test
 	public void PR01() {
 		// Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
@@ -80,7 +105,7 @@ public class MyWallapopTests {
 
 	// PR02. Registro de Usuario con datos inválidos (email vacío, nombre vacío,
 	// apellidos vacíos).
-//	@Test
+	@Test
 	public void PR02() {
 		// Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
@@ -101,7 +126,7 @@ public class MyWallapopTests {
 
 	// PR03. Registro de Usuario con datos inválidos (repetición de contraseña
 	// inválida).
-//	@Test
+	@Test
 	public void PR03() {
 		// Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
@@ -114,12 +139,12 @@ public class MyWallapopTests {
 	}
 
 	// PR04. Registro de Usuario con datos inválidos (email existente)
-//	@Test
+	@Test
 	public void PR04() {
 		// Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "santi@email.es", "Santiago", "Perez", "123456", "123456");
+		PO_RegisterView.fillForm(driver, "ejemplo1@mail.es", "Santiago", "Perez", "123456", "123456");
 		PO_View.getP();
 		// COmprobamos el error de mail repetido.
 		PO_RegisterView.checkKey(driver, "Error.signup.mail.duplicate", PO_Properties.getSPANISH());
@@ -129,7 +154,7 @@ public class MyWallapopTests {
 	// -----------------INICIO DE SESIÓN----------------------
 
 	// PR05. Inicio de sesión con datos válidos (administrador).
-//	@Test
+	@Test
 	public void PR05() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -140,7 +165,7 @@ public class MyWallapopTests {
 	}
 
 	// PR06. Inicio de sesión con datos válidos (usuario estándar).
-//	@Test
+	@Test
 	public void PR06() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -153,7 +178,7 @@ public class MyWallapopTests {
 
 	// PR07. Inicio de sesión con datos inválidos (usuario estándar, campo email y
 	// contraseña vacíos).
-//	@Test
+	@Test
 	public void PR07() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -164,22 +189,20 @@ public class MyWallapopTests {
 	}
 
 	// PR08. Inicio de sesión con datos válidos (usuario estándar, email existente,
-	// pero contraseña
-	// incorrecta).
-//	@Test
+	// pero contraseña incorrecta).
+	@Test
 	public void PR08() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario, contraseña incorrecta.
 		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "admin");
 		// Comprobamos que seguimos en la vista de login
-		PO_View.checkElement(driver, "text", "Identifícate");
-
+		PO_View.checkNoElement(driver, "Desconectar");
 	}
 
 	// PR09. Inicio de sesión con datos inválidos (usuario estándar, email no
 	// existente en la aplicación).
-//	@Test
+	@Test
 	public void PR09() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -193,9 +216,8 @@ public class MyWallapopTests {
 	// -----------------FIN DE SESIÓN----------------------
 
 	// PR10. Hacer click en la opción de salir de sesión y comprobar que se redirige
-	// a la página de inicio
-	// de sesión (Login).
-	// @Test
+	// a la página de inicio de sesión (Login).
+	@Test
 	public void PR10() {
 		// iniciamos sesión
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -210,7 +232,7 @@ public class MyWallapopTests {
 
 	// PR11. Comprobar que el botón cerrar sesión no está visible si el usuario no
 	// está autenticado.
-	// @Test
+	@Test
 	public void PR11() {
 		// no nos registramos
 		// comprobamos que no está el botón de desconectar
@@ -248,7 +270,7 @@ public class MyWallapopTests {
 	// PR16. Ir al formulario de alta de oferta, rellenarla con datos válidos y
 	// pulsar el botón Submit.
 	// Comprobar que la oferta sale en el listado de ofertas de dicho usuario.
-	// @Test
+	@Test
 	public void PR16() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -264,13 +286,13 @@ public class MyWallapopTests {
 		// Pinchamos en añadir oferta.
 		elementos.get(0).click();
 		// Ahora vamos a rellenar la oferta.
-		PO_PrivateView.fillFormAddOffer(driver, "Lavadora", "Segunda mano Bosch", "90");
+		PO_PrivateView.fillFormAddOffer(driver, "Cascos", "Cascos Meizu 5.0", "90");
 		// Esperamos a que se muestren los enlaces de paginación la lista de ofertas
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		// Nos vamos a la última página
 		elementos.get(3).click();
 		// Comprobamos que aparece la oferta en la pagina
-		elementos = PO_View.checkElement(driver, "text", "Lavadora");
+		elementos = PO_View.checkElement(driver, "text", "Cascos");
 		// nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
@@ -278,7 +300,7 @@ public class MyWallapopTests {
 	// PR17.Ir al formulario de alta de oferta, rellenarla con datos inválidos
 	// (campo título vacío) y pulsar el botón Submit. Comprobar que se muestra el
 	// mensaje de campo obligatorio.
-	// @Test
+	@Test
 	public void PR17() {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -309,9 +331,9 @@ public class MyWallapopTests {
 		// Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		// Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		PO_LoginView.fillForm(driver, "ejemplo2@mail.es", "123456");
 		// COmprobamos que entramos en la pagina privada.
-		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		PO_View.checkElement(driver, "text", "ejemplo2@mail.es");
 		// Pinchamos en la opción de menu de gestión ofertas.
 		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
 		elementos.get(0).click();
@@ -330,15 +352,55 @@ public class MyWallapopTests {
 
 	// PR19. Ir a la lista de ofertas, borrar la primera oferta de la lista,
 	// comprobar que la lista se actualiza y que la oferta desaparece.
-	// @Test
+	@Test
 	public void PR19() {
-
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de mis ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/myOffers')]");
+		// Pinchamos en mis ofertas.
+		elementos.get(0).click();
+		// Buscamos la primera oferta y le damos a eliminar (Auriculares)
+		elementos = PO_View.checkElement(driver, "free","//td[contains(text(), 'Auriculares')]/following-sibling::*/a[contains(@href, 'offer/delete')]");
+		elementos.get(0).click();
+		// Comprobamos que ya no figuran en la lista de mis ofertas.
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Auriculares", PO_View.getTimeout());
+		// nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 
 	// PR20.Ir a la lista de ofertas, borrar la última oferta de la lista, comprobar
 	// que la lista se actualiza y que la oferta desaparece.
-	// @Test
+	@Test
 	public void PR20() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de mis ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/myOffers')]");
+		// Pinchamos en mis ofertas.
+		elementos.get(0).click();
+		// Buscamos la primera oferta y le damos a eliminar (Auriculares)
+		elementos = PO_View.checkElement(driver, "free",
+				"//td[contains(text(), 'Cascos')]/following-sibling::*/a[contains(@href, 'offer/delete')]");
+		elementos.get(0).click();
+		// Comprobamos que ya no figuran en la lista de mis ofertas.
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Cascos", PO_View.getTimeout());
+		// nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 
 	}
 
