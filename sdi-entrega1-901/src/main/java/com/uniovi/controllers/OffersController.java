@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,7 @@ import com.uniovi.services.OffersService;
 import com.uniovi.services.PurchasesService;
 
 import com.uniovi.services.UsersService;
+import com.uniovi.validators.AddOfferValidator;
 
 @Controller
 public class OffersController {
@@ -39,14 +42,22 @@ public class OffersController {
 	
 	@Autowired
 	private HttpSession httpSession;
+	
+	@Autowired
+	private AddOfferValidator addOfferValidator;
 
 	@RequestMapping(value = "/offer/add")
-	public String getOffer() {
+	public String getOffer(Model model) {
+		model.addAttribute("offer", new Offer());
 		return "offer/add";
 	}
 
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
-	public String setOffer(@ModelAttribute Offer offer) {
+	public String setOffer(@Validated Offer offer, BindingResult result) {
+		addOfferValidator.validate(offer, result);
+		if (result.hasErrors()) {
+			return "offer/add";
+		}
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
