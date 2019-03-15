@@ -500,10 +500,10 @@ public class MyWallapopTests {
 		elementos.get(0).click();
 		// Buscamos la primera oferta y le damos a eliminar (Auriculares)
 		elementos = PO_View.checkElement(driver, "free",
-				"//td[contains(text(), 'Cascos')]/following-sibling::*/a[contains(@href, 'offer/delete')]");
+				"//td[contains(text(), 'Camiseta running')]/following-sibling::*/a[contains(@href, 'offer/delete')]");
 		elementos.get(0).click();
 		// Comprobamos que ya no figuran en la lista de mis ofertas.
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Cascos", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Camiseta running", PO_View.getTimeout());
 		// nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 
