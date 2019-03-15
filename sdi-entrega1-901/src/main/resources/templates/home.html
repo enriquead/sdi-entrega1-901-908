@@ -7,7 +7,7 @@
 
 		<h2 th:text="#{welcome.message}"></h2>
 		<h3 sec:authorize="isAuthenticated()" th:text="#{private.message}"></h3>
-		<div sec:authorize="isAuthenticated()">
+		<div sec:authorize="hasRole('ROLE_ESTANDAR')">
 
 			<h2 th:text="#{promoted.offers.message}">Ofertas Destacadas</h2>
 			<div class="table-responsive" th:fragment="tableOffers" id="tableOffers">
@@ -31,7 +31,6 @@
 							<td th:text="${offer.price}"></td>
 							<td th:text="${offer.user.mail}"></td>
 							<td th:if="${offer.purchase==null and session.loggedUser.mail!=offer.user.mail}">
-										<td th:if="${offer.purchase==null and session.loggedUser.mail!=offer.user.mail}">
 							<button type="button" th:id="${'buyButton' + offer.id}"
 								th:text=#{ident.buy} class="btn btn-success">Comprar</button>
 							<script th:inline="javascript">

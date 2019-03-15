@@ -25,7 +25,10 @@
 						<td th:text="${offer.upDate}"></td>
 						<td th:text="${offer.price}"></td>
 						<td><a th:href="${'/offer/delete/' + offer.id}" th:text="#{delete.message}"></a></td>
-						<td th:if="${offer.promoted==false}">
+						<td th:unless=${offer.purchase==null}>
+						<button type="button" th:id="${'boughButton' + offer.id}"
+								th:text=#{ident.bought} class="btn btn-danger">Comprado</button></td>
+						<td th:if="${offer.promoted==false and offer.purchase==null}">
 							<button type="button" th:id="${'promoteButton' + offer.id}"
 								th:text=#{promote.message} class="btn btn-default">Destacar</button>
 							<script th:inline="javascript">
@@ -41,7 +44,7 @@
 						</td>
 						<td th:unless="${offer.promoted==false}">
 						<button type="button" th:id="${'promotedButton' + offer.id}"
-								th:text=#{promoted.message} class="btn btn-success">Destacado</button>
+								th:text=#{promoted.message} class="btn btn-warning">Destacado</button>
 						
 						</td>
 						
