@@ -345,24 +345,80 @@ public class MyWallapopTests {
 
 	// PR12. Mostrar el listado de usuarios y comprobar que se muestran todos los
 	// que existen en el sistema
-	// @Test
+	 @Test
 	public void PR12() {
-		
+		//Inicio de sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		//Comprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "Gestión Usuarios");
+		//Vamos a la opción de gestionar usuarios
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+		elementos.get(0).click();
+		//Calcamos la opción
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
+		elementos.get(0).click();
+		//Comprobamos que aparecen todos los elementos esperados(5 usuarios)
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 5);
+		//Salimos de sesión
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 
 	}
 
 	// PR13. Ir a la lista de usuarios, borrar el primer usuario de la lista,
 	// comprobar que la lista se actualiza y dicho usuario desaparece.
-	// @Test
+	@Test
 	public void PR13() {
-
+		//Inicio de sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		//Comprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "Gestión Usuarios");
+		//Vamos a la opción de gestionar usuarios
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+		elementos.get(0).click();
+		//Calcamos la opción
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
+		elementos.get(0).click();
+		//Seleccionamos el primer usuario y hacemos click
+		elementos = PO_View.checkElement(driver, "free", "//input");
+		elementos.get(0).click();
+		//Calcamos el botón de borrar
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "deleteButton", PO_View.getTimeout());
+		elementos.get(0).click();
+		//Comprobamos que la página no contiene al 1 usuario. Email ejemplo1@mail.es
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "ejemplo1@mail.es", PO_View.getTimeout());
+		//Cerramos la sesión
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 
 	// PR14. Ir a la lista de usuarios, borrar el último usuario de la lista,
 	// comprobar que la lista se actualiza y dicho usuario desaparece.
-	// @Test
+	 @Test
 	public void PR14() {
-
+		//Inicio de sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		//Comprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "Gestión Usuarios");
+		//Vamos a la opción de gestionar usuarios
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+		elementos.get(0).click();
+		//Calcamos la opción
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
+		elementos.get(0).click();
+		//Seleccionamos el último usuario y hacemos click
+		elementos = PO_View.checkElement(driver, "free", "//input");
+		//Al ser 5 usuarios el último es el 4
+		elementos.get(4).click();
+		//Calcamos el botón de borrar
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "deleteButton", PO_View.getTimeout());
+		elementos.get(0).click();
+		//Comprobamos que la página no contiene al 1 usuario. Email ejemplo1@mail.es
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "ejemplo5@mail.es", PO_View.getTimeout());
+		//Cerramos la sesión
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 
 	// PR15. Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se

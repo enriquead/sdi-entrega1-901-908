@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.security.core.Authentication;
 import com.uniovi.entities.User;
+import com.uniovi.repositories.PurchasesRepository;
 import com.uniovi.repositories.UsersRepository;
 
 @Service
@@ -26,6 +27,9 @@ public class UsersService {
 	private UsersRepository usersRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private PurchasesRepository purchasesRepository;
 
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
@@ -50,6 +54,7 @@ public class UsersService {
 	}
 
 	public void deleteUser(Long id) {
+		purchasesRepository.deleteByUserId(id);
 		usersRepository.deleteById(id);
 	}
 	
