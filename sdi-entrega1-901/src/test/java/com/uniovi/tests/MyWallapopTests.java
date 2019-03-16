@@ -391,7 +391,7 @@ public class MyWallapopTests {
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "ejemplo1@mail.es", PO_View.getTimeout());
 		//Comprobamos que ahora haya solo 4 usuarios
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
-		assertTrue(elementos.size() == 5);
+		assertTrue(elementos.size() == 4);
 		//Cerramos la sesión
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
@@ -481,8 +481,8 @@ public class MyWallapopTests {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/add')]");
 		// Pinchamos en añadir oferta.
 		elementos.get(0).click();
-		//Esperamos a estar en la vista adecuada
-		SeleniumUtils.EsperaCargaPagina(driver, "free", "Añadir oferta", PO_View.getTimeout());
+		//Esperamos a estar en la vista adecuada, deberia aparecer el botón publicar
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "publicar", PO_View.getTimeout());
 		// Ahora vamos a rellenar la oferta.
 		PO_PrivateView.fillFormAddOffer(driver, "Cascos", "Cascos Meizu 5.0", "90");
 		// Esperamos a que se muestren los enlaces de paginación la lista de ofertas
@@ -513,8 +513,8 @@ public class MyWallapopTests {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/add')]");
 		// Pinchamos en añadir oferta.
 		elementos.get(0).click();
-		//Esperamos a estar en la vista adecuada
-		SeleniumUtils.EsperaCargaPagina(driver, "free", "Añadir oferta", PO_View.getTimeout());
+		//Esperamos a estar en la vista adecuada, deberia aparecer el botón publicar
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "publicar", PO_View.getTimeout());
 		// Ahora vamos a rellenar la oferta sin titulo.
 		PO_PrivateView.fillFormAddOffer(driver, " ", "Segunda mano Bosch", "90");
 		// Si dejamos el título vacío, comprobamos que sigue en la misma página de

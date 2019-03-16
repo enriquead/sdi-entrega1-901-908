@@ -2,12 +2,13 @@
 <html lang="en">
 <head th:replace="fragments/head" />
 <body>
-	<!-- Barra de NavegaciÃ³n superior -->
+	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
 		<h2 th:text="#{ident.users}"></h2>
 		<p th:text="#{users.list.message}"></p>
 		<div class="table-responsive">
+			<form method="POST" action="/user/list/delete">
 				<table class="table table-hover" th:fragment="userTable"
 					id="userTable">
 					<thead>
@@ -19,31 +20,23 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="user : ${usersList}" th:if ="user.mail!= 'admin@email.com'">
-							<td><input type="checkbox" th:id="${user.id}"></td>
+						<tr th:each="user : ${usersList}"
+							th:if="user.mail!= 'admin@email.com'">
+							<td><input id="ids" type="checkbox" name="ids"
+								th:value="${user.id}"></td>
 							<td th:text="${user.mail}">admin@email.com</td>
 							<td th:text="${user.name}">Nombre del usuario</td>
 							<td th:text="${user.lastName}">Apellidos del usuario</td>
 
 						</tr>
+						
 					</tbody>
+
 				</table>
-				<button id="deleteButton" th:text="#{ident.delete}" type="button"
-					class="btn btn-primary"></button>
-				<script>
-				$('#deleteButton').click(function(){
-			        $("input:checkbox").each(function(){
-			            var $this = $(this);
-			            if($this.is(":checked")){
-			                var idABorrar = $this.attr("id");
-			                $("#userTable").load('/user/list/delete/?id='+idABorrar);
-			            } 
-			       
-			        });
-			     
-			    });
-				</script>
-				
+				<button class="btn btn-danger" id="deleteButton" type="submit" th:text="#{ident.delete}"></button>
+			</form>
+
+
 		</div>
 	</div>
 	<footer th:replace="fragments/footer" />

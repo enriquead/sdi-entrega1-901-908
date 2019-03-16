@@ -1,5 +1,7 @@
 package com.uniovi.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,13 +85,21 @@ public class UsersController {
 		model.addAttribute("offerList", offersService.getPromoted());
 		return "home";
 	}
-
-	@RequestMapping("/user/list/delete")
-	public String updateList(Model model, @RequestParam Long id) {
-		purchasesService.deleteByUserId(id);
-		usersService.deleteUser(id);
+	
+	@RequestMapping(value = "/user/list/delete",method=RequestMethod.POST)
+	public String delete(@RequestParam List<Long> ids) {
+		for (Long id: ids) {
+			purchasesService.deleteByUserId(id);
+			usersService.deleteUser(id);
+			
+		}
+		return "redirect:/user/list";
+	}
+	
+	@RequestMapping("/user/list/update")
+	public String updateListado(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
-		return "user/list :: userTable";
+		return "user/list";
 	}
 
 }
