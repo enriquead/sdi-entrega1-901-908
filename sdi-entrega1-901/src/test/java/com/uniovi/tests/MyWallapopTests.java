@@ -18,8 +18,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.Purchase;
 import com.uniovi.entities.User;
-import com.uniovi.repositories.OffersRepository;
-import com.uniovi.repositories.PurchasesRepository;
 import com.uniovi.repositories.UsersRepository;
 import com.uniovi.services.InsertSampleDataService;
 import com.uniovi.services.OffersService;
@@ -664,7 +662,7 @@ public class MyWallapopTests {
 		
 	}
 	@Test
-	//Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se
+	//PR 22 Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se
 	//muestra la página que corresponde, con la lista de ofertas vacía.
 	public void PR22() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -692,6 +690,107 @@ public class MyWallapopTests {
 		elementos = PO_View.checkElement(driver, "free", "//tr");
 		Assert.assertTrue(elementos.size() == 1);//Un único tr, la cabecera
 		// nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	//PR 23 Sobre una búsqueda determinada (a elección de desarrollador), comprar una oferta que deja
+	//un saldo positivo en el contador del comprobador. Y comprobar que el contador se actualiza
+	//correctamente en la vista del comprador.
+	@Test
+	public void PR23() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión de ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de buscar ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/search')]");
+		// Pinchamos
+		elementos.get(0).click();
+		//Comprobamos que estamos en la página correcta y tomamos como elemento el botón buscar
+		elementos  = SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		//Escribimos un texto que concuerda con una oferta que deja saldo positivo
+		PO_PrivateView.fillSearchText(driver, "Ratón antiguo");
+		elementos.get(0).click();
+		//Cogemos el botón directamente con btn btn-success porque solo hay uno
+		elementos = PO_View.checkElement(driver, "class", "btn btn-success");
+		//Calcamos el botón comprar
+		elementos.get(0).click();
+		//Comprobamos que volvemos a la página de búsqueda. Hay botón de búsqueda
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		//Comprobamos el dinero que tenemos disponible es 70
+		SeleniumUtils.textoPresentePagina(driver, "70.0 €");
+		//Nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+				
+	}
+	//PR 24 Sobre una búsqueda determinada (a elección de desarrollador), comprar una oferta que deja
+	//un saldo 0 en el contador del comprobador. Y comprobar que el contador se actualiza correctamente en
+	//la vista del comprador. 
+	@Test
+	public void PR24() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión de ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de buscar ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/search')]");
+		// Pinchamos
+		elementos.get(0).click();
+		//Comprobamos que estamos en la página correcta y tomamos como elemento el botón buscar
+		elementos  = SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		//Escribimos un texto que concuerda con una oferta que deja saldo 0
+		PO_PrivateView.fillSearchText(driver, "Sartén");
+		elementos.get(0).click();
+		//Cogemos el botón directamente con btn btn-success porque solo hay uno
+		elementos = PO_View.checkElement(driver, "class", "btn btn-success");
+		//Calcamos el botón comprar
+		elementos.get(0).click();
+		//Comprobamos que volvemos a la página de búsqueda. Hay botón de búsqueda
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		//Comprobamos el dinero que tenemos disponible es 0
+		SeleniumUtils.textoPresentePagina(driver, "0.0 €");
+		//Nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	//PR 25 Sobre una búsqueda determinada (a elección de desarrollador), intentar comprar una oferta
+	//que esté por encima de saldo disponible del comprador. Y comprobar que se muestra el mensaje de
+	//saldo no suficiente.
+	@Test
+	public void PR25() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión de ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de buscar ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/search')]");
+		// Pinchamos
+		elementos.get(0).click();
+		//Comprobamos que estamos en la página correcta y tomamos como elemento el botón buscar
+		elementos  = SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		//Escribimos un texto que concuerda con una oferta que no se puede comprar
+		PO_PrivateView.fillSearchText(driver, "Samsung");
+		elementos.get(0).click();
+		//Cogemos el botón directamente con btn btn-success porque solo hay uno
+		elementos = PO_View.checkElement(driver, "class", "btn btn-success");
+		//Calcamos el botón comprar
+		elementos.get(0).click();
+		//Comprobamos que volvemos a la página de búsqueda. Hay botón de búsqueda
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		//Comprobamos que no deja hacer la operación y que el dinero no varía
+		SeleniumUtils.textoPresentePagina(driver, "100.0 €");
+		SeleniumUtils.textoPresentePagina(driver, "La compra no ha podido ser realizada, revise su balance");
+		//Nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 	
