@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.User;
 import com.uniovi.services.OffersService;
+import com.uniovi.services.PurchasesService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
@@ -29,6 +30,9 @@ public class UsersController {
 
 	@Autowired
 	private RolesService rolesService;
+	
+	@Autowired
+	private PurchasesService purchasesService;
 
 	@Autowired
 	private SignUpValidator signUpValidator;
@@ -81,6 +85,7 @@ public class UsersController {
 
 	@RequestMapping("/user/list/delete")
 	public String updateList(Model model, @RequestParam Long id) {
+		purchasesService.deleteByUserId(id);
 		usersService.deleteUser(id);
 		model.addAttribute("usersList", usersService.getUsers());
 		return "user/list :: userTable";

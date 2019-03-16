@@ -49,5 +49,9 @@ public class PurchasesService {
 		}
 		return false;
 	}
+	public void deleteByUserId(Long id) {
+		purchasesRepository.deleteByUserId(id);
+	}
+	
 
 }

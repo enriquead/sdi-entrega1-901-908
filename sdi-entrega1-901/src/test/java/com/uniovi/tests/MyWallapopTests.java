@@ -19,6 +19,7 @@ import com.uniovi.entities.Offer;
 import com.uniovi.entities.Purchase;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.OffersRepository;
+import com.uniovi.repositories.PurchasesRepository;
 import com.uniovi.repositories.UsersRepository;
 import com.uniovi.services.InsertSampleDataService;
 import com.uniovi.services.OffersService;
@@ -52,6 +53,7 @@ public class MyWallapopTests {
 
 	@Autowired
 	private UsersRepository usersRepository;
+	
 	
 	@Autowired InsertSampleDataService sampleDataService;
 
@@ -389,6 +391,9 @@ public class MyWallapopTests {
 		elementos.get(0).click();
 		//Comprobamos que la página no contiene al 1 usuario. Email ejemplo1@mail.es
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "ejemplo1@mail.es", PO_View.getTimeout());
+		//Comprobamos que ahora haya solo 4 usuarios
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 5);
 		//Cerramos la sesión
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
@@ -415,16 +420,48 @@ public class MyWallapopTests {
 		//Calcamos el botón de borrar
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "deleteButton", PO_View.getTimeout());
 		elementos.get(0).click();
-		//Comprobamos que la página no contiene al 1 usuario. Email ejemplo1@mail.es
+		//Comprobamos que la página no contiene al ultimo usuario. Email ejemplo5@mail.es
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "ejemplo5@mail.es", PO_View.getTimeout());
+		//Comprobamos que ahora haya solo 4 usuarios
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 4);
 		//Cerramos la sesión
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
 
 	// PR15. Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se
 	// actualiza y dichos usuarios desaparecen.
-	// @Test
+	@Test
 	public void PR15() {
+		//Inicio de sesión
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		//Comprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "Gestión Usuarios");
+		//Vamos a la opción de gestionar usuarios
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+		elementos.get(0).click();
+		//Calcamos la opción
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
+		elementos.get(0).click();
+		//Seleccionamos tres usuarios, voy a coger el primero,tercero y cuarto
+		elementos = PO_View.checkElement(driver, "free", "//input");
+		//Empezando en 0 serían 0,2 y 3
+		elementos.get(0).click();
+		elementos.get(2).click();
+		elementos.get(3).click();
+		//Calcamos el botón de borrar
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "deleteButton", PO_View.getTimeout());
+		elementos.get(0).click();
+		//Comprobamos que la página no contiene al 1,3 ni 4 usuario. Email ejemplo1@mail.es
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "ejemplo1@mail.es", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "ejemplo3@mail.es", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "ejemplo4@mail.es", PO_View.getTimeout());
+		//Comprobamos que ahora haya solo 2 usuarios
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 2);
+		//Cerramos la sesión
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 
 	}
 
@@ -446,6 +483,8 @@ public class MyWallapopTests {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/add')]");
 		// Pinchamos en añadir oferta.
 		elementos.get(0).click();
+		//Esperamos a estar en la vista adecuada
+		SeleniumUtils.EsperaCargaPagina(driver, "free", "Añadir oferta", PO_View.getTimeout());
 		// Ahora vamos a rellenar la oferta.
 		PO_PrivateView.fillFormAddOffer(driver, "Cascos", "Cascos Meizu 5.0", "90");
 		// Esperamos a que se muestren los enlaces de paginación la lista de ofertas
@@ -476,6 +515,8 @@ public class MyWallapopTests {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/add')]");
 		// Pinchamos en añadir oferta.
 		elementos.get(0).click();
+		//Esperamos a estar en la vista adecuada
+		SeleniumUtils.EsperaCargaPagina(driver, "free", "Añadir oferta", PO_View.getTimeout());
 		// Ahora vamos a rellenar la oferta sin titulo.
 		PO_PrivateView.fillFormAddOffer(driver, " ", "Segunda mano Bosch", "90");
 		// Si dejamos el título vacío, comprobamos que sigue en la misma página de
@@ -564,5 +605,120 @@ public class MyWallapopTests {
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 
 	}
+	// PR21.Hacer una búsqueda con el campo vacío y comprobar que se muestra la página que
+	// corresponde con el listado de las ofertas existentes en el sistema
+	@Test
+	public void PR21() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión de ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de buscar ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/search')]");
+		// Pinchamos
+		elementos.get(0).click();
+		//Sin escribir nada calcamos el botón de buscar
+		elementos  = SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		elementos.get(0).click();
+		//Comprobamos que estámos en la página de búsqueda
+		SeleniumUtils.textoPresentePagina(driver, "Aquí puede buscar las ofertas que más le interesen");
+		//Comprobamos que en la primera página aparecen todas las ofertas esperadas
+		SeleniumUtils.textoPresentePagina(driver, "Auriculares");
+		SeleniumUtils.textoPresentePagina(driver, "Teclado");
+		SeleniumUtils.textoPresentePagina(driver, "Camiseta running");
+		SeleniumUtils.textoPresentePagina(driver, "Ratón inalámbrico");
+		SeleniumUtils.textoPresentePagina(driver, "Ratón antiguo");
+		//Pasamos a la siguiente página (2)
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "siguiente", PO_View.getTimeout());
+		elementos.get(0).click();
+		//Comprobamos que en esta página hay lo que debe haber
+		SeleniumUtils.textoPresentePagina(driver, "Auriculares Bluetooth");
+		SeleniumUtils.textoPresentePagina(driver, "Lavadora inteligente");
+		SeleniumUtils.textoPresentePagina(driver, "Samsung TV");
+		SeleniumUtils.textoPresentePagina(driver, "Mesa");
+		SeleniumUtils.textoPresentePagina(driver, "Silla");
+		//Pasamos a la siguiente página (3)
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "siguiente", PO_View.getTimeout());
+		elementos.get(0).click();
+		//Comprobamos que en esta página hay lo que debe haber
+		SeleniumUtils.textoPresentePagina(driver, "Teclado");
+		SeleniumUtils.textoPresentePagina(driver, "Camiseta running");
+		SeleniumUtils.textoPresentePagina(driver, "Sartén");
+		SeleniumUtils.textoPresentePagina(driver, "Monitor");
+		SeleniumUtils.textoPresentePagina(driver, "Botas de montaña");
+		//Pasamos a la última página (3) Como son 15 elementos y 5 por página la última es la tres
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "última", PO_View.getTimeout());
+		elementos.get(0).click();
+		//Comprobamos que en esta página hay lo que debe haber, lo que hay en la 3
+		SeleniumUtils.textoPresentePagina(driver, "Teclado");
+		SeleniumUtils.textoPresentePagina(driver, "Camiseta running");
+		SeleniumUtils.textoPresentePagina(driver, "Sartén");
+		SeleniumUtils.textoPresentePagina(driver, "Monitor");
+		SeleniumUtils.textoPresentePagina(driver, "Botas de montaña");
+		// nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+		
+	}
+	@Test
+	//Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se
+	//muestra la página que corresponde, con la lista de ofertas vacía.
+	public void PR22() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión de ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de buscar ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/search')]");
+		// Pinchamos
+		elementos.get(0).click();
+		//Comprobamos que estamos en la página correcta y tomamos como elemento el botón buscar
+		elementos  = SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		//Escribimos un texto que no concuerde con ninguna oferta
+		PO_PrivateView.fillSearchText(driver, "Ninguna oferta");
+		//Calcamos el botón de buscar
+		elementos.get(0).click();
+		//Comprobamos que estámos en la página de búsqueda
+		SeleniumUtils.textoPresentePagina(driver, "Aquí puede buscar las ofertas que más le interesen");
+		//Comprobamos que no aparecen elementos en el cuerpo de la tabla
+		//Solo habrá un tr en la página(corresponde con la cabecera)
+		elementos = PO_View.checkElement(driver, "free", "//tr");
+		Assert.assertTrue(elementos.size() == 1);//Un único tr, la cabecera
+		// nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+	}
+	
+	// PR26. Ir a la opción de ofertas compradas del usuario y mostrar la lista. Comprobar que aparecen
+	//las ofertas que deben aparecer.
+	@Test
+	public void PR26() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		// Pinchamos en la opción de menu de gestión de compras.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'purchases-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de ver compras.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'purchase/list')]");
+		// Pinchamos
+		elementos.get(0).click();
+		//Comprobamos que existen las ofertas que deberían existir
+		SeleniumUtils.textoPresentePagina(driver, "Ratón inalámbrico");
+		SeleniumUtils.textoPresentePagina(driver, "Lavadora inteligente");
+		// nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+		
+		
+		}
 
 }

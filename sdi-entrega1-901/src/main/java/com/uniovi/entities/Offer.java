@@ -21,7 +21,7 @@ public class Offer {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@OneToOne(mappedBy="offer" ,cascade= CascadeType.ALL)
+	@OneToOne(mappedBy="offer", cascade=CascadeType.ALL)
 	private Purchase purchase;
 	
 	public Offer() {
@@ -33,6 +33,7 @@ public class Offer {
 		this.details=details;
 		this.price=price;
 		this.user=user;
+		setPresentDate();
 	}
 	
 	public Offer(String title, double price,User user) {
@@ -40,6 +41,7 @@ public class Offer {
 		this.title=title;
 		this.price=price;
 		this.user = user;
+		setPresentDate();
 	}
 	
 	public Offer(String title, String details, String upDate, double price, User user) {

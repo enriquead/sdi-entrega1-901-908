@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import com.uniovi.entities.Offer;
 
+@Transactional
 public interface OffersRepository extends CrudRepository<Offer, Long>{
 	
 	@Query("SELECT o FROM Offer o WHERE LOWER(o.title) LIKE LOWER(?1) ")
@@ -30,5 +31,6 @@ public interface OffersRepository extends CrudRepository<Offer, Long>{
 	@Query("UPDATE User SET money = ?1 WHERE id = ?2")
 	void updatePromotedMoney(double money, Long id);
 
-	Page<Offer> findAll(Pageable pageable); 
+	Page<Offer> findAll(Pageable pageable);
+ 
 }
