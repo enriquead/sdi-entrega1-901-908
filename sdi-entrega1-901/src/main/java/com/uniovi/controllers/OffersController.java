@@ -171,6 +171,7 @@ public class OffersController {
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
 		model.addAttribute("offerList", activeUser.getOffers());
+		model.addAttribute("failedPromotion",httpSession.getAttribute("failedPromotion"));
 
 		return "offer/myOffers :: tableOffers";
 	}
