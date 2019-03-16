@@ -65,6 +65,12 @@
 			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
 			<version>3.0.4.RELEASE</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version><!--$NO-MVN-MAN-VER$-->
+        </dependency>
 
 	</dependencies>
 

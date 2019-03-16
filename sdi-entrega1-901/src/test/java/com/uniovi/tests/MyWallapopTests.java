@@ -971,6 +971,42 @@ public class MyWallapopTests {
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 				
 	}
+	@Test
+	// PR28.Intentar acceder sin estar autenticado a la opción de listado de usuarios del administrador.
+	// Se deberá volver al formulario de login.
+	public void PR28() {
+		//Intentamos ir a la URL
+		driver.navigate().to(URL+"/user/list");
+		//Comprobamos que realmente no estamos en esa url si no en
+		//el formulario de login
+		PO_View.checkElement(driver, "text", "Identifícate");
+		
+	}
+	@Test
+	// PR29.Intentar acceder sin estar autenticado a la opción de listado de ofertas propias de un usuario estándar. 
+	// Se deberá volver al formulario de login
+	public void PR29() {
+		//Intentamos ir a la URL
+		driver.navigate().to(URL+"/offer/myOffers");
+		//Comprobamos que realmente no estamos en esa url si no en
+		//el formulario de login
+		PO_View.checkElement(driver, "text", "Identifícate");
+		
+	}
+	@Test
+	// PR30.Estando  autenticado  como  usuario  estándar  intentar  acceder  a  la  opción  de  listado  de usuarios del administrador. 
+	// Se deberá indicar un mensaje de acción prohibida.
+	public void PR30() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		driver.navigate().to(URL+"/user/list");
+		PO_View.checkElement(driver, "text", "Prohibido");
+		
+		
+	}
+	
 	
 
 }
