@@ -69,7 +69,6 @@ public class OffersService {
 		if(user.getMoney() >= disc && offer.getUser().getMail().equals(user.getMail())) {
 			user.setMoney(user.getMoney() - disc);
 			offersRepository.updatePromoted(revised, id);
-			offersRepository.updatePromotedMoney(user.getMoney(), user.getId());
 			return true;
 		}
 		return false;

@@ -20,7 +20,7 @@
 		<div class="table-responsive" th:fragment="tableOffers" id="tableOffers">
 		<div th:include="fragments/userIdent"></div>
 			<table class="table table-hover" >
-				<span class="text-danger" th:if="${fail==true}"  th:text="#{message.buy.fail}"></span>
+				<span class="text-danger" th:if="${failedPromotion==true}"  th:text="#{message.promotion.fail}"></span>
 				<thead>
 					<tr>
 						<th th:text="#{offer.title}">Título</th>

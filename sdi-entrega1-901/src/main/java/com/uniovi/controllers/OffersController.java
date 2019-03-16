@@ -158,7 +158,10 @@ public class OffersController {
 	public String setPromotedTrue(Model model, @PathVariable Long id) {
 		User activeUser = usersService.getCurrentUser();
 		log.info("{} intenta destacar una oferta",((User) httpSession.getAttribute("loggedUser")).getMail());
-		offersService.setOfferPromoted(activeUser,true, id);
+		boolean exito = offersService.setOfferPromoted(activeUser,true, id);
+		httpSession.setAttribute("failedPromotion",!exito);
+		model.addAttribute("failedPromotion",httpSession.getAttribute("failedPromotion"));
+		
 		return "redirect:/offer/myOffers";
 	}
 	

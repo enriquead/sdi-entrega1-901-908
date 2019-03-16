@@ -26,10 +26,6 @@ public interface OffersRepository extends CrudRepository<Offer, Long>{
 	@Query("UPDATE Offer SET promoted = ?1 WHERE id = ?2")
 	void updatePromoted(Boolean promoted, Long id);
 	
-	@Modifying
-	@Transactional
-	@Query("UPDATE User SET money = ?1 WHERE id = ?2")
-	void updatePromotedMoney(double money, Long id);
 
 	Page<Offer> findAll(Pageable pageable);
  
