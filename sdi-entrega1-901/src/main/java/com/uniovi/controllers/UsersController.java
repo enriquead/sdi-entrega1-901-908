@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,9 +46,13 @@ public class UsersController {
 	
 	@Autowired
 	private OffersService offersService;
+	
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
+		log.info("{} solicita ver el listado de usuarios",((User) httpSession.getAttribute("loggedUser")).getMail());
 		model.addAttribute("usersList", usersService.getUsers());
 		return "user/list";
 	}
@@ -61,6 +66,7 @@ public class UsersController {
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@Validated User user, BindingResult result) {
 		signUpValidator.validate(user, result);
+		log.info("Intento de registro",((User) httpSession.getAttribute("loggedUser")).getMail());
 		if (result.hasErrors()) {
 			return "signup";
 		}
@@ -72,6 +78,7 @@ public class UsersController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
+		log.info("Intento de login");
 		return "login";
 	}
 
@@ -81,7 +88,7 @@ public class UsersController {
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
 		httpSession.setAttribute("loggedUser", activeUser);
-		
+		log.info("{} está en el sistema",((User) httpSession.getAttribute("loggedUser")).getMail());
 		model.addAttribute("offerList", offersService.getPromoted());
 		return "home";
 	}
@@ -91,7 +98,7 @@ public class UsersController {
 		for (Long id: ids) {
 			purchasesService.deleteByUserId(id);
 			usersService.deleteUser(id);
-			
+			log.info("{} Intenta borrar un usuario",((User) httpSession.getAttribute("loggedUser")).getMail());
 		}
 		return "redirect:/user/list";
 	}

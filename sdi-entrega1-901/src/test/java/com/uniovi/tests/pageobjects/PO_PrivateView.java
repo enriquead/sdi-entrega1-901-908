@@ -3,9 +3,6 @@ package com.uniovi.tests.pageobjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-
-import com.uniovi.tests.util.SeleniumUtils;
 
 public class PO_PrivateView extends PO_NavView {
 	

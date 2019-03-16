@@ -1,10 +1,11 @@
 package com.uniovi.controllers;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +47,8 @@ public class OffersController {
 	@Autowired
 	private AddOfferValidator addOfferValidator;
 	
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 
 
 	@RequestMapping(value = "/offer/add")
@@ -62,6 +64,7 @@ public class OffersController {
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
 	public String setOffer(@Validated Offer offer, BindingResult result) {
 		addOfferValidator.validate(offer, result);
+		log.info("{} intenta añadir una oferta",((User) httpSession.getAttribute("loggedUser")).getMail());
 		if (result.hasErrors()) {
 			return "offer/add";
 		}
@@ -76,6 +79,7 @@ public class OffersController {
 
 	@RequestMapping("/offer/details/{id}")
 	public String getDetail(Model model, @PathVariable Long id) {
+		log.info("{} consulta los detalles de una oferta",((User) httpSession.getAttribute("loggedUser")).getMail());
 		model.addAttribute("offer", offersService.getOffer(id));
 		return "offer/details";
 	}
@@ -93,6 +97,7 @@ public class OffersController {
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
 		httpSession.setAttribute("loggedUser", activeUser);
+		log.info("{} busca ofertas",((User) httpSession.getAttribute("loggedUser")).getMail());
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 
 		if (searchText != null && !searchText.isEmpty()) {
@@ -113,6 +118,7 @@ public class OffersController {
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
 		httpSession.setAttribute("loggedUser", activeUser);
+		log.info("{} consulta las ofertas",((User) httpSession.getAttribute("loggedUser")).getMail());
 		model.addAttribute("offerList", activeUser.getOffers());
 		return "offer/myOffers";
 	}
@@ -121,6 +127,7 @@ public class OffersController {
 	public String setBuy(Model model, @PathVariable Long id) {
 		Offer boughtOffer = offersService.getOffer(id);
 		User currentUser = usersService.getCurrentUser();
+		log.info("{} intenta comprar una oferta",((User) httpSession.getAttribute("loggedUser")).getMail());
 		boolean exito = purchasesService.addPurchase(currentUser, boughtOffer);
 		httpSession.setAttribute("fail",!exito);
 		httpSession.setAttribute("loggedUser",currentUser);
@@ -150,6 +157,7 @@ public class OffersController {
 	@RequestMapping(value = "/offer/{id}/promote", method = RequestMethod.GET)
 	public String setPromotedTrue(Model model, @PathVariable Long id) {
 		User activeUser = usersService.getCurrentUser();
+		log.info("{} intenta destacar una oferta",((User) httpSession.getAttribute("loggedUser")).getMail());
 		offersService.setOfferPromoted(activeUser,true, id);
 		return "redirect:/offer/myOffers";
 	}

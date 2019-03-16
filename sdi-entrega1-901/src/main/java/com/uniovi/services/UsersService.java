@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.security.core.Authentication;
 import com.uniovi.entities.User;
-import com.uniovi.repositories.OffersRepository;
-import com.uniovi.repositories.PurchasesRepository;
 import com.uniovi.repositories.UsersRepository;
 
 @Service
@@ -29,10 +27,6 @@ public class UsersService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	
-	@Autowired
-	private PurchasesRepository purchasesRepository;
-
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
 		usersRepository.findAll().forEach(users::add);

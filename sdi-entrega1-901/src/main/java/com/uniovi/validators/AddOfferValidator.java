@@ -1,12 +1,10 @@
 package com.uniovi.validators;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.*;
 
 import com.uniovi.entities.Offer;
-import com.uniovi.services.OffersService;
 
 @Component
 public class AddOfferValidator implements Validator {
