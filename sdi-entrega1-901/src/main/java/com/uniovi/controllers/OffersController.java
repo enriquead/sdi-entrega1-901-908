@@ -46,9 +46,15 @@ public class OffersController {
 	
 	@Autowired
 	private AddOfferValidator addOfferValidator;
+	
+
 
 	@RequestMapping(value = "/offer/add")
 	public String getOffer(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String mail = auth.getName();
+		User activeUser = usersService.getUserByMail(mail);
+		httpSession.setAttribute("loggedUser", activeUser);
 		model.addAttribute("offer", new Offer());
 		return "offer/add";
 	}
@@ -83,6 +89,10 @@ public class OffersController {
 	@RequestMapping("/offer/search")
 	public String getSearch(Model model, Pageable pageable,
 			@RequestParam(value = "", required = false) String searchText) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String mail = auth.getName();
+		User activeUser = usersService.getUserByMail(mail);
+		httpSession.setAttribute("loggedUser", activeUser);
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 
 		if (searchText != null && !searchText.isEmpty()) {
@@ -98,9 +108,11 @@ public class OffersController {
 
 	@RequestMapping(value = { "offer/myOffers" }, method = RequestMethod.GET)
 	public String myOffers(Model model) {
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
+		httpSession.setAttribute("loggedUser", activeUser);
 		model.addAttribute("offerList", activeUser.getOffers());
 		return "offer/myOffers";
 	}

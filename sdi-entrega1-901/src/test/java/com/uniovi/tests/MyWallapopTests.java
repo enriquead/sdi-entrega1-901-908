@@ -26,6 +26,7 @@ import com.uniovi.services.RolesService;
 import com.uniovi.services.UsersService;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
@@ -819,5 +820,157 @@ public class MyWallapopTests {
 		
 		
 		}
+	@Test
+	// PR27. Visualizar al menos cuatro páginas en Español/Inglés/Español 
+	// (comprobando que algunas de las   etiquetas   cambian   al   idioma   correspondiente).   
+	// Página   principal/Opciones   Principales   de Usuario/Listado de Usuarios de Admin/Vistade alta de Oferta.
+	public void PR27() {
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina princioal.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		//Estamos en español, comprobamos algunas etiquetas
+		SeleniumUtils.textoPresentePagina(driver, "Bienvenidos a MyWallapop");
+		SeleniumUtils.textoPresentePagina(driver, "Esta es una zona privada de la web");
+		SeleniumUtils.textoPresentePagina(driver, "Ofertas destacadas");
+		SeleniumUtils.textoPresentePagina(driver, "Título");
+		SeleniumUtils.textoPresentePagina(driver, "Detalles");
+		SeleniumUtils.textoPresentePagina(driver, "Precio");
+		PO_NavView.changeIdiom(driver, "btnEnglish");
+		//Estamos en inglés, comprobamos algunas etiquetas
+		SeleniumUtils.textoPresentePagina(driver, "Welcome to MyWallapop");
+		SeleniumUtils.textoPresentePagina(driver, "This is a private area of the web");
+		SeleniumUtils.textoPresentePagina(driver, "Promoted Offers");
+		SeleniumUtils.textoPresentePagina(driver, "Title");
+		SeleniumUtils.textoPresentePagina(driver, "Details");
+		SeleniumUtils.textoPresentePagina(driver, "Price");
+		//Volvemos al español y comprobamos que están otra vez en español
+		PO_NavView.changeIdiom(driver, "btnSpanish");
+		SeleniumUtils.textoPresentePagina(driver, "Bienvenidos a MyWallapop");
+		SeleniumUtils.textoPresentePagina(driver, "Esta es una zona privada de la web");
+		SeleniumUtils.textoPresentePagina(driver, "Ofertas destacadas");
+		SeleniumUtils.textoPresentePagina(driver, "Título");
+		SeleniumUtils.textoPresentePagina(driver, "Detalles");
+		SeleniumUtils.textoPresentePagina(driver, "Precio");
+//		// Vamos a ver las opciones principales de usuario, como están en la barra
+//		//de navegación podemos comprobarlo desde esta vista. Estamos en español
+		SeleniumUtils.textoPresentePagina(driver, "Gestión");
+		SeleniumUtils.textoPresentePagina(driver, "Mis ofertas");
+		SeleniumUtils.textoPresentePagina(driver, "Buscar");
+		SeleniumUtils.textoPresentePagina(driver, "Gestión de compras");
+		SeleniumUtils.textoPresentePagina(driver, "Ver");
+//		//Cambiamos a inglés y comprobamos
+		PO_NavView.changeIdiom(driver, "btnEnglish");
+		SeleniumUtils.textoPresentePagina(driver, "Offers");
+		SeleniumUtils.textoPresentePagina(driver, "Purchases");
+		SeleniumUtils.textoPresentePagina(driver, "Add offer");
+		SeleniumUtils.textoPresentePagina(driver, "My offers");
+		SeleniumUtils.textoPresentePagina(driver, "View Purchases");
+//		//Volvemos a español y comprobamos
+		PO_NavView.changeIdiom(driver, "btnSpanish");
+		SeleniumUtils.textoPresentePagina(driver, "Gestión");
+		SeleniumUtils.textoPresentePagina(driver, "Mis ofertas");
+		SeleniumUtils.textoPresentePagina(driver, "Buscar");
+		SeleniumUtils.textoPresentePagina(driver, "Gestión de compras");
+		SeleniumUtils.textoPresentePagina(driver, "Ver");
+
+//
+		//Nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+		//Entramos como admin
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "admin@email.com", "admin");
+		//Vamos a la opción de gestionar usuarios
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+		elementos.get(0).click();
+		//Calcamos la opción
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
+		elementos.get(0).click();
+		//Estamos en español. Visualizamos algunos de los contenidos
+		SeleniumUtils.textoPresentePagina(driver, "Usuarios");
+		SeleniumUtils.textoPresentePagina(driver, "Eliminar");
+		SeleniumUtils.textoPresentePagina(driver, "Nombre");
+		SeleniumUtils.textoPresentePagina(driver, "Apellidos");
+		
+		
+		//Cambiamos a inglés y comprobamos 
+		PO_NavView.changeIdiom(driver, "btnEnglish");
+		SeleniumUtils.textoPresentePagina(driver, "Users");
+		SeleniumUtils.textoPresentePagina(driver, "Delete");
+		SeleniumUtils.textoPresentePagina(driver, "Name");
+		SeleniumUtils.textoPresentePagina(driver, "Last Name");
+		//Volvemos a español
+		PO_NavView.changeIdiom(driver, "btnSpanish");
+		SeleniumUtils.textoPresentePagina(driver, "Usuarios");
+		SeleniumUtils.textoPresentePagina(driver, "Eliminar");
+		SeleniumUtils.textoPresentePagina(driver, "Nombre");
+		SeleniumUtils.textoPresentePagina(driver, "Apellidos");
+		
+		//Nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+		//Entramos como usuario
+		// Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		//Calcamos la opción
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/offer/add')]");
+		elementos.get(0).click();
+		//Estamos en español
+		SeleniumUtils.textoPresentePagina(driver, "Añadir oferta");
+		SeleniumUtils.textoPresentePagina(driver, "Título");
+		SeleniumUtils.textoPresentePagina(driver, "Detalles");
+		SeleniumUtils.textoPresentePagina(driver, "Precio");
+		SeleniumUtils.textoPresentePagina(driver, "Fecha");
+		//Cambiamos a inglées y probamos
+		PO_NavView.changeIdiom(driver, "btnEnglish");
+		SeleniumUtils.textoPresentePagina(driver, "Add offer");
+		SeleniumUtils.textoPresentePagina(driver, "Title");
+		SeleniumUtils.textoPresentePagina(driver, "Details");
+		SeleniumUtils.textoPresentePagina(driver, "Price");
+		SeleniumUtils.textoPresentePagina(driver, "Date");
+		//Volvemos a español y probamos
+		PO_NavView.changeIdiom(driver, "btnSpanish");
+		SeleniumUtils.textoPresentePagina(driver, "Añadir oferta");
+		SeleniumUtils.textoPresentePagina(driver, "Título");
+		SeleniumUtils.textoPresentePagina(driver, "Detalles");
+		SeleniumUtils.textoPresentePagina(driver, "Precio");
+		SeleniumUtils.textoPresentePagina(driver, "Fecha");
+		//Vamos a ver otra página,buscar ofertas
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		//Calcamos la opción
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/offer/search')]");
+		elementos.get(0).click();
+		SeleniumUtils.textoPresentePagina(driver, "Ofertas");
+		SeleniumUtils.textoPresentePagina(driver, "Título");
+		SeleniumUtils.textoPresentePagina(driver, "Detalles");
+		SeleniumUtils.textoPresentePagina(driver, "Comprado");
+		SeleniumUtils.textoPresentePagina(driver, "Comprar");
+		//Cambiamos a inglées y probamos
+		PO_NavView.changeIdiom(driver, "btnEnglish");
+		SeleniumUtils.textoPresentePagina(driver, "Offers");
+		SeleniumUtils.textoPresentePagina(driver, "Title");
+		SeleniumUtils.textoPresentePagina(driver, "Details");
+		SeleniumUtils.textoPresentePagina(driver, "Bought");
+		SeleniumUtils.textoPresentePagina(driver, "Buy");
+		//Volvemos a español y probamos
+		PO_NavView.changeIdiom(driver, "btnSpanish");
+		SeleniumUtils.textoPresentePagina(driver, "Ofertas");
+		SeleniumUtils.textoPresentePagina(driver, "Título");
+		SeleniumUtils.textoPresentePagina(driver, "Detalles");
+		SeleniumUtils.textoPresentePagina(driver, "Comprado");
+		SeleniumUtils.textoPresentePagina(driver, "Comprar");
+		//Nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+				
+	}
+	
 
 }

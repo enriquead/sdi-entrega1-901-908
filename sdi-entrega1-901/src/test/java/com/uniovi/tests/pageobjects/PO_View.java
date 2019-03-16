@@ -10,7 +10,7 @@ import com.uniovi.tests.util.SeleniumUtils;
 public class PO_View {
 	
 	protected static PO_Properties p = new PO_Properties("messages");
-	protected static int timeout = 2;
+	protected static int timeout = 5;
 
 	public static int getTimeout() {
 		return timeout;
