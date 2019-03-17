@@ -32,7 +32,7 @@
 								th:text=#{ident.bought} class="btn btn-danger">Comprado</button></td>
 						<td th:if="${offer.promoted==false and offer.purchase==null}">
 							<button type="button" th:id="${'promoteButton' + offer.id}"
-								th:text=#{promote.message} class="btn btn-default">Destacar</button>
+								th:text=#{promote.message} class="btn btn-default destacar">Destacar</button>
 							<script th:inline="javascript">
 								/*<![CDATA[*/
 								$("#promoteButton[[${offer.id}]]")

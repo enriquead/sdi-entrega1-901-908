@@ -485,7 +485,7 @@ public class MyWallapopTests {
 		//Esperamos a estar en la vista adecuada, deberia aparecer el botón publicar
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "publicar", PO_View.getTimeout());
 		// Ahora vamos a rellenar la oferta.
-		PO_PrivateView.fillFormAddOffer(driver, "Cascos", "Cascos Meizu 5.0", "90");
+		PO_PrivateView.fillFormAddOffer(driver, "Cascos", "Cascos Meizu 5.0", "90",false);
 		// Esperamos a que se muestren los enlaces de paginación la lista de ofertas
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		// Nos vamos a la última página
@@ -517,7 +517,7 @@ public class MyWallapopTests {
 		//Esperamos a estar en la vista adecuada, deberia aparecer el botón publicar
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "publicar", PO_View.getTimeout());
 		// Ahora vamos a rellenar la oferta sin titulo.
-		PO_PrivateView.fillFormAddOffer(driver, " ", "Segunda mano Bosch", "90");
+		PO_PrivateView.fillFormAddOffer(driver, " ", "Segunda mano Bosch", "90",false);
 		// Si dejamos el título vacío, comprobamos que sigue en la misma página de
 		// añadir oferta.
 		PO_View.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
@@ -992,6 +992,7 @@ public class MyWallapopTests {
 		//el formulario de login
 		PO_View.checkElement(driver, "text", "Identifícate");
 		
+		
 	}
 	@Test
 	// PR30.Estando  autenticado  como  usuario  estándar  intentar  acceder  a  la  opción  de  listado  de usuarios del administrador. 
@@ -1003,9 +1004,152 @@ public class MyWallapopTests {
 		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
 		driver.navigate().to(URL+"/user/list");
 		PO_View.checkElement(driver, "text", "Prohibido");
+		//Nos desconectamos
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 		
 		
 	}
+	
+	@Test
+	// PR36.Al crear una oferta marcar dicha oferta como destacada y a continuación comprobar: i) que
+	//aparece en el listado de ofertas destacadas para los usuarios y que el saldo del usuario se actualiza
+	//adecuadamente en la vista del ofertante (-20).
+	public void PR36() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		//Vamos a añadir oferta
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de añadir oferta.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/add')]");
+		// Pinchamos en añadir oferta.
+		elementos.get(0).click();
+		//Esperamos a estar en la vista adecuada, deberia aparecer el botón publicar
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "publicar", PO_View.getTimeout());
+		//Rellenamos el formulario y añadimos oferta
+		PO_PrivateView.fillFormAddOffer(driver, "PlayStation 4", "500GB", "160",true);
+		//Vamos a la página home, que es donde se encuentran todas las ofertas destacadas
+		//de todos los usuarios
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'homeOption')]/a");
+		elementos.get(0).click();
+		//Comprobamos que aparece la oferta
+		PO_View.checkElement(driver, "text", "PlayStation 4");
+		//Vamos a comprobar ahora que sea visible para otros usuarios
+		//Salimos de sesión		
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo2@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada y que aparece la oferta
+		PO_View.checkElement(driver, "text", "ejemplo2@mail.es");
+		PO_View.checkElement(driver, "text", "PlayStation 4");
+		//Salimos de sesión
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+			
+	}
+	
+	@Test
+	// PR37.Sobre el listado de ofertas de un usuario con menos de 20 euros de saldo, pinchar en el
+	// enlace Destacada y a continuación comprobar: i) que aparece en el listado de ofertas destacadas para los
+	// usuarios y que el saldo del usuario se actualiza adecuadamente en la vista del ofertante (-20).
+	
+	//Nota, supongo que hay una errata en el enunciado de esta prueba y que se querría decir
+	// con más de 20 euros, ya que la prueba que comprueba con menos de 20 es la 38
+	// y el resto del enunciado parece indicar que el usuario tiene más de 20€
+	public void PR37() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo2@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo2@mail.es");
+		//Vamos a mis ofertas
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de mis ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/myOffers')]");
+		// Pinchamos en mis ofertas.
+		elementos.get(0).click();
+		// Seleccionamos el botón de destacar oferta. Solo hay una destacable, ya que
+		// las otras dos están compradas
+		elementos = PO_View.checkElement(driver, "class", "destacar");
+		elementos.get(0).click();
+		//Comprobamos que se actualiza el saldo, baja de 100 a 80
+		PO_View.checkElement(driver, "text", "80.0");
+		//Vamos a home para comprobar que la oferta ha sido destacada
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'homeOption')]/a");
+		elementos.get(0).click();
+		PO_View.checkElement(driver, "text", "Ratón antiguo");
+		//Vamos a comprobar que está para todos los usuarios, entramos con otro
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo1@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada y que aparece la oferta
+		//Las ofertas destacadas aparecen en home
+		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
+		PO_View.checkElement(driver, "text", "Ratón antiguo");
+		//Salimos de sesión
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+			
+	}
+	@Test
+	// PR38.Sobre el listado de ofertas de un usuario con menos de 20 euros de saldo, pinchar en el
+	// enlace Destacada y a continuación comprobar que se muestra el mensaje de saldo no suficiente
+
+	public void PR38() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		// Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ejemplo2@mail.es", "123456");
+		// COmprobamos que entramos en la pagina privada.
+		PO_View.checkElement(driver, "text", "ejemplo2@mail.es");
+		// Vamos a comprar una oferta que deje el saldo por debajo de 20,
+		// una que deja el saldo en 0
+		// Pinchamos en la opción de menu de gestión de ofertas.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de buscar ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/search')]");
+		// Pinchamos
+		elementos.get(0).click();
+		//Comprobamos que estamos en la página correcta y tomamos como elemento el botón buscar
+		elementos  = SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		//Escribimos un texto que concuerda con una oferta que deja saldo 0
+		PO_PrivateView.fillSearchText(driver, "Sartén");
+		elementos.get(0).click();
+		//Cogemos el botón directamente con btn btn-success porque solo hay uno
+		elementos = PO_View.checkElement(driver, "class", "btn btn-success");
+		//Calcamos el botón comprar
+		elementos.get(0).click();
+		//Comprobamos que volvemos a la página de búsqueda. Hay botón de búsqueda
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
+		//Comprobamos el dinero que tenemos disponible es 0
+		SeleniumUtils.textoPresentePagina(driver, "0.0 €");
+		//Vamos ahora a la vista de mis ofertas para intentar destacar la oferta
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+		elementos.get(0).click();
+		// Esperamos a aparezca la opción de mis ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/myOffers')]");
+		// Pinchamos en mis ofertas.
+		elementos.get(0).click();
+		// Seleccionamos el botón de destacar oferta. Solo hay una destacable, ya que
+		// las otras dos están compradas
+		elementos = PO_View.checkElement(driver, "class", "destacar");
+		elementos.get(0).click();
+		// Comprobamos que aparece mensaje de error
+		PO_View.checkElement(driver, "text", "No se ha podido destacar su oferta, revise su balance");
+		//Vamos tambien a comprobar que no aparece la oferta entre las destacadas
+		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'homeOption')]/a");
+		elementos.get(0).click();
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Ratón antiguo", PO_View.getTimeout());
+		//Cerramos la sesión
+		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
+			
+	}
+	
+	
 	
 	
 
