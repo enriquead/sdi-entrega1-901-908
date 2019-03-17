@@ -70,7 +70,9 @@ public class MyWallapopTests {
 	// static String Geckdriver024 = "/Users/delacal/selenium/geckodriver024mac";
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
-	static String URL = "http://localhost:8080";
+	static String URLREMOTA = "http://35.180.58.190:8080";
+	static String URLLOCAL = "http://localhost:8080";
+	static String URL = URLLOCAL;
 
 	public static WebDriver getDriver(String PathFirefox, String Geckdriver) {
 		System.setProperty("webdriver.firefox.bin", PathFirefox);
@@ -386,7 +388,7 @@ public class MyWallapopTests {
 		elementos = PO_View.checkElement(driver, "free", "//input");
 		elementos.get(0).click();
 		//Calcamos el botón de borrar
-		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "deleteButton", PO_View.getTimeout());
+		elementos = PO_View.checkElement(driver, "id", "deleteButton");
 		elementos.get(0).click();
 		//Comprobamos que la página no contiene al 1 usuario. Email ejemplo1@mail.es
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "ejemplo1@mail.es", PO_View.getTimeout());
@@ -624,40 +626,40 @@ public class MyWallapopTests {
 		elementos  = SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
 		elementos.get(0).click();
 		//Comprobamos que estámos en la página de búsqueda
-		SeleniumUtils.textoPresentePagina(driver, "Aquí puede buscar las ofertas que más le interesen");
+		PO_View.checkElement(driver, "text", "Aquí puede buscar las ofertas que más le interesen");
 		//Comprobamos que en la primera página aparecen todas las ofertas esperadas
-		SeleniumUtils.textoPresentePagina(driver, "Auriculares");
-		SeleniumUtils.textoPresentePagina(driver, "Teclado");
-		SeleniumUtils.textoPresentePagina(driver, "Camiseta running");
-		SeleniumUtils.textoPresentePagina(driver, "Ratón inalámbrico");
-		SeleniumUtils.textoPresentePagina(driver, "Ratón antiguo");
+		PO_View.checkElement(driver, "text", "Auriculares");
+		PO_View.checkElement(driver, "text", "Teclado");
+		PO_View.checkElement(driver, "text", "Camiseta running");
+		PO_View.checkElement(driver, "text", "Ratón inalámbrico");
+		PO_View.checkElement(driver, "text", "Ratón antiguo");
 		//Pasamos a la siguiente página (2)
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "siguiente", PO_View.getTimeout());
 		elementos.get(0).click();
 		//Comprobamos que en esta página hay lo que debe haber
-		SeleniumUtils.textoPresentePagina(driver, "Auriculares Bluetooth");
-		SeleniumUtils.textoPresentePagina(driver, "Lavadora inteligente");
-		SeleniumUtils.textoPresentePagina(driver, "Samsung TV");
-		SeleniumUtils.textoPresentePagina(driver, "Mesa");
-		SeleniumUtils.textoPresentePagina(driver, "Silla");
+		PO_View.checkElement(driver, "text", "Auriculares Bluetooth");
+		PO_View.checkElement(driver, "text", "Lavadora inteligente");
+		PO_View.checkElement(driver, "text", "Samsung TV");
+		PO_View.checkElement(driver, "text", "Mesa");
+		PO_View.checkElement(driver, "text", "Silla");
 		//Pasamos a la siguiente página (3)
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "siguiente", PO_View.getTimeout());
 		elementos.get(0).click();
 		//Comprobamos que en esta página hay lo que debe haber
-		SeleniumUtils.textoPresentePagina(driver, "Teclado");
-		SeleniumUtils.textoPresentePagina(driver, "Camiseta running");
-		SeleniumUtils.textoPresentePagina(driver, "Sartén");
-		SeleniumUtils.textoPresentePagina(driver, "Monitor");
-		SeleniumUtils.textoPresentePagina(driver, "Botas de montaña");
+		PO_View.checkElement(driver, "text", "Teclado");
+		PO_View.checkElement(driver, "text", "Camiseta running");
+		PO_View.checkElement(driver, "text", "Sartén");
+		PO_View.checkElement(driver, "text", "Monitor");
+		PO_View.checkElement(driver, "text", "Botas de montaña");
 		//Pasamos a la última página (3) Como son 15 elementos y 5 por página la última es la tres
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "última", PO_View.getTimeout());
 		elementos.get(0).click();
 		//Comprobamos que en esta página hay lo que debe haber, lo que hay en la 3
-		SeleniumUtils.textoPresentePagina(driver, "Teclado");
-		SeleniumUtils.textoPresentePagina(driver, "Camiseta running");
-		SeleniumUtils.textoPresentePagina(driver, "Sartén");
-		SeleniumUtils.textoPresentePagina(driver, "Monitor");
-		SeleniumUtils.textoPresentePagina(driver, "Botas de montaña");
+		PO_View.checkElement(driver, "text", "Teclado");
+		PO_View.checkElement(driver, "text", "Camiseta running");
+		PO_View.checkElement(driver, "text", "Sartén");
+		PO_View.checkElement(driver, "text", "Monitor");
+		PO_View.checkElement(driver, "text", "Botas de montaña");
 		// nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 		
@@ -685,7 +687,7 @@ public class MyWallapopTests {
 		//Calcamos el botón de buscar
 		elementos.get(0).click();
 		//Comprobamos que estámos en la página de búsqueda
-		SeleniumUtils.textoPresentePagina(driver, "Aquí puede buscar las ofertas que más le interesen");
+		PO_View.checkElement(driver, "text", "Aquí puede buscar las ofertas que más le interesen");
 		//Comprobamos que no aparecen elementos en el cuerpo de la tabla
 		//Solo habrá un tr en la página(corresponde con la cabecera)
 		elementos = PO_View.checkElement(driver, "free", "//tr");
@@ -722,7 +724,7 @@ public class MyWallapopTests {
 		//Comprobamos que volvemos a la página de búsqueda. Hay botón de búsqueda
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
 		//Comprobamos el dinero que tenemos disponible es 70
-		SeleniumUtils.textoPresentePagina(driver, "70.0 €");
+		PO_View.checkElement(driver, "text", "70.0 €");
 		//Nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 				
@@ -756,7 +758,7 @@ public class MyWallapopTests {
 		//Comprobamos que volvemos a la página de búsqueda. Hay botón de búsqueda
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
 		//Comprobamos el dinero que tenemos disponible es 0
-		SeleniumUtils.textoPresentePagina(driver, "0.0 €");
+		PO_View.checkElement(driver, "text", "0.0 €");
 		//Nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
@@ -789,8 +791,8 @@ public class MyWallapopTests {
 		//Comprobamos que volvemos a la página de búsqueda. Hay botón de búsqueda
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
 		//Comprobamos que no deja hacer la operación y que el dinero no varía
-		SeleniumUtils.textoPresentePagina(driver, "100.0 €");
-		SeleniumUtils.textoPresentePagina(driver, "La compra no ha podido ser realizada, revise su balance");
+		PO_View.checkElement(driver, "text", "100.0 €");
+		PO_View.checkElement(driver, "text", "La compra no ha podido ser realizada, revise su balance");
 		//Nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 	}
@@ -813,8 +815,9 @@ public class MyWallapopTests {
 		// Pinchamos
 		elementos.get(0).click();
 		//Comprobamos que existen las ofertas que deberían existir
-		SeleniumUtils.textoPresentePagina(driver, "Ratón inalámbrico");
-		SeleniumUtils.textoPresentePagina(driver, "Lavadora inteligente");
+		
+		PO_View.checkElement(driver, "text", "Ratón inalámbrico");
+		PO_View.checkElement(driver, "text", "Lavadora inteligente");
 		// nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
 		
@@ -832,50 +835,50 @@ public class MyWallapopTests {
 		// COmprobamos que entramos en la pagina princioal.
 		PO_View.checkElement(driver, "text", "ejemplo1@mail.es");
 		//Estamos en español, comprobamos algunas etiquetas
-		SeleniumUtils.textoPresentePagina(driver, "Bienvenidos a MyWallapop");
-		SeleniumUtils.textoPresentePagina(driver, "Esta es una zona privada de la web");
-		SeleniumUtils.textoPresentePagina(driver, "Ofertas destacadas");
-		SeleniumUtils.textoPresentePagina(driver, "Título");
-		SeleniumUtils.textoPresentePagina(driver, "Detalles");
-		SeleniumUtils.textoPresentePagina(driver, "Precio");
+		PO_View.checkElement(driver, "text", "Bienvenidos a MyWallapop");
+		PO_View.checkElement(driver, "text", "Esta es una zona privada de la web");
+		PO_View.checkElement(driver, "text", "Ofertas destacadas");
+		PO_View.checkElement(driver, "text", "Título");
+		PO_View.checkElement(driver, "text", "Detalles");
+		PO_View.checkElement(driver, "text", "Precio");
 		PO_NavView.changeIdiom(driver, "btnEnglish");
 		//Estamos en inglés, comprobamos algunas etiquetas
-		SeleniumUtils.textoPresentePagina(driver, "Welcome to MyWallapop");
-		SeleniumUtils.textoPresentePagina(driver, "This is a private area of the web");
-		SeleniumUtils.textoPresentePagina(driver, "Promoted Offers");
-		SeleniumUtils.textoPresentePagina(driver, "Title");
-		SeleniumUtils.textoPresentePagina(driver, "Details");
-		SeleniumUtils.textoPresentePagina(driver, "Price");
+		PO_View.checkElement(driver, "text", "Welcome to MyWallapop");
+		PO_View.checkElement(driver, "text", "This is a private area of the web");
+		PO_View.checkElement(driver, "text", "Promoted Offers");
+		PO_View.checkElement(driver, "text", "Title");
+		PO_View.checkElement(driver, "text", "Details");
+		PO_View.checkElement(driver, "text", "Price");
 		//Volvemos al español y comprobamos que están otra vez en español
 		PO_NavView.changeIdiom(driver, "btnSpanish");
-		SeleniumUtils.textoPresentePagina(driver, "Bienvenidos a MyWallapop");
-		SeleniumUtils.textoPresentePagina(driver, "Esta es una zona privada de la web");
-		SeleniumUtils.textoPresentePagina(driver, "Ofertas destacadas");
-		SeleniumUtils.textoPresentePagina(driver, "Título");
-		SeleniumUtils.textoPresentePagina(driver, "Detalles");
-		SeleniumUtils.textoPresentePagina(driver, "Precio");
+		PO_View.checkElement(driver, "text", "Bienvenidos a MyWallapop");
+		PO_View.checkElement(driver, "text", "Esta es una zona privada de la web");
+		PO_View.checkElement(driver, "text", "Ofertas destacadas");
+		PO_View.checkElement(driver, "text", "Título");
+		PO_View.checkElement(driver, "text", "Detalles");
+		PO_View.checkElement(driver, "text", "Precio");
 //		// Vamos a ver las opciones principales de usuario, como están en la barra
 //		//de navegación podemos comprobarlo desde esta vista. Estamos en español
-		SeleniumUtils.textoPresentePagina(driver, "Gestión");
+		PO_View.checkElement(driver, "text", "Gestión");
 		SeleniumUtils.textoPresentePagina(driver, "Mis ofertas");
 		SeleniumUtils.textoPresentePagina(driver, "Buscar");
 		SeleniumUtils.textoPresentePagina(driver, "Gestión de compras");
 		SeleniumUtils.textoPresentePagina(driver, "Ver");
 //		//Cambiamos a inglés y comprobamos
 		PO_NavView.changeIdiom(driver, "btnEnglish");
-		SeleniumUtils.textoPresentePagina(driver, "Offers");
+		PO_View.checkElement(driver, "text", "Offers");
 		SeleniumUtils.textoPresentePagina(driver, "Purchases");
 		SeleniumUtils.textoPresentePagina(driver, "Add offer");
 		SeleniumUtils.textoPresentePagina(driver, "My offers");
-		SeleniumUtils.textoPresentePagina(driver, "View Purchases");
+		SeleniumUtils.textoPresentePagina(driver, "View");
+		
 //		//Volvemos a español y comprobamos
 		PO_NavView.changeIdiom(driver, "btnSpanish");
-		SeleniumUtils.textoPresentePagina(driver, "Gestión");
+		PO_View.checkElement(driver, "text", "Gestión");
 		SeleniumUtils.textoPresentePagina(driver, "Mis ofertas");
 		SeleniumUtils.textoPresentePagina(driver, "Buscar");
 		SeleniumUtils.textoPresentePagina(driver, "Gestión de compras");
 		SeleniumUtils.textoPresentePagina(driver, "Ver");
-
 //
 		//Nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "class", "btn btn-primary");
@@ -890,22 +893,20 @@ public class MyWallapopTests {
 		//Calcamos la opción
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/user/list')]");
 		elementos.get(0).click();
-		//Estamos en español. Visualizamos algunos de los contenidos
-		SeleniumUtils.textoPresentePagina(driver, "Usuarios");
+		//Estamos en español. Visualizamos algunos de los contenidos	
+		PO_View.checkElement(driver, "text", "Usuarios");
 		SeleniumUtils.textoPresentePagina(driver, "Eliminar");
 		SeleniumUtils.textoPresentePagina(driver, "Nombre");
 		SeleniumUtils.textoPresentePagina(driver, "Apellidos");
-		
-		
 		//Cambiamos a inglés y comprobamos 
 		PO_NavView.changeIdiom(driver, "btnEnglish");
-		SeleniumUtils.textoPresentePagina(driver, "Users");
+		PO_View.checkElement(driver, "text", "Users");
 		SeleniumUtils.textoPresentePagina(driver, "Delete");
 		SeleniumUtils.textoPresentePagina(driver, "Name");
 		SeleniumUtils.textoPresentePagina(driver, "Last Name");
 		//Volvemos a español
 		PO_NavView.changeIdiom(driver, "btnSpanish");
-		SeleniumUtils.textoPresentePagina(driver, "Usuarios");
+		PO_View.checkElement(driver, "text", "Usuarios");
 		SeleniumUtils.textoPresentePagina(driver, "Eliminar");
 		SeleniumUtils.textoPresentePagina(driver, "Nombre");
 		SeleniumUtils.textoPresentePagina(driver, "Apellidos");
@@ -923,21 +924,21 @@ public class MyWallapopTests {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/offer/add')]");
 		elementos.get(0).click();
 		//Estamos en español
-		SeleniumUtils.textoPresentePagina(driver, "Añadir oferta");
+		SeleniumUtils.textoPresentePagina(driver, "Añadir");
 		SeleniumUtils.textoPresentePagina(driver, "Título");
 		SeleniumUtils.textoPresentePagina(driver, "Detalles");
 		SeleniumUtils.textoPresentePagina(driver, "Precio");
 		SeleniumUtils.textoPresentePagina(driver, "Fecha");
 		//Cambiamos a inglées y probamos
 		PO_NavView.changeIdiom(driver, "btnEnglish");
-		SeleniumUtils.textoPresentePagina(driver, "Add offer");
+		SeleniumUtils.textoPresentePagina(driver, "Add");
 		SeleniumUtils.textoPresentePagina(driver, "Title");
 		SeleniumUtils.textoPresentePagina(driver, "Details");
 		SeleniumUtils.textoPresentePagina(driver, "Price");
 		SeleniumUtils.textoPresentePagina(driver, "Date");
 		//Volvemos a español y probamos
 		PO_NavView.changeIdiom(driver, "btnSpanish");
-		SeleniumUtils.textoPresentePagina(driver, "Añadir oferta");
+		SeleniumUtils.textoPresentePagina(driver, "Añadir");
 		SeleniumUtils.textoPresentePagina(driver, "Título");
 		SeleniumUtils.textoPresentePagina(driver, "Detalles");
 		SeleniumUtils.textoPresentePagina(driver, "Precio");
@@ -948,21 +949,21 @@ public class MyWallapopTests {
 		//Calcamos la opción
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/offer/search')]");
 		elementos.get(0).click();
-		SeleniumUtils.textoPresentePagina(driver, "Ofertas");
+		PO_View.checkElement(driver, "text", "Ofertas");
 		SeleniumUtils.textoPresentePagina(driver, "Título");
 		SeleniumUtils.textoPresentePagina(driver, "Detalles");
 		SeleniumUtils.textoPresentePagina(driver, "Comprado");
 		SeleniumUtils.textoPresentePagina(driver, "Comprar");
 		//Cambiamos a inglées y probamos
 		PO_NavView.changeIdiom(driver, "btnEnglish");
-		SeleniumUtils.textoPresentePagina(driver, "Offers");
+		PO_View.checkElement(driver, "text", "Offers");
 		SeleniumUtils.textoPresentePagina(driver, "Title");
 		SeleniumUtils.textoPresentePagina(driver, "Details");
 		SeleniumUtils.textoPresentePagina(driver, "Bought");
 		SeleniumUtils.textoPresentePagina(driver, "Buy");
 		//Volvemos a español y probamos
 		PO_NavView.changeIdiom(driver, "btnSpanish");
-		SeleniumUtils.textoPresentePagina(driver, "Ofertas");
+		PO_View.checkElement(driver, "text", "Ofertas");
 		SeleniumUtils.textoPresentePagina(driver, "Título");
 		SeleniumUtils.textoPresentePagina(driver, "Detalles");
 		SeleniumUtils.textoPresentePagina(driver, "Comprado");
@@ -1126,7 +1127,7 @@ public class MyWallapopTests {
 		//Comprobamos que volvemos a la página de búsqueda. Hay botón de búsqueda
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "searchButton", PO_View.getTimeout());
 		//Comprobamos el dinero que tenemos disponible es 0
-		SeleniumUtils.textoPresentePagina(driver, "0.0 €");
+		PO_View.checkElement(driver, "text", "0.0 €");
 		//Vamos ahora a la vista de mis ofertas para intentar destacar la oferta
 		elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
 		elementos.get(0).click();
