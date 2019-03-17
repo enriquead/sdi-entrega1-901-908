@@ -19,7 +19,6 @@ import com.uniovi.entities.Offer;
 import com.uniovi.entities.Purchase;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.UsersRepository;
-import com.uniovi.services.InsertSampleDataService;
 import com.uniovi.services.OffersService;
 import com.uniovi.services.PurchasesService;
 import com.uniovi.services.RolesService;
@@ -54,9 +53,6 @@ public class MyWallapopTests {
 	private UsersRepository usersRepository;
 	
 	
-	@Autowired InsertSampleDataService sampleDataService;
-
-
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
 	//static String PathFirefox65 = "C:\\Users\\media service\\Desktop\\SDI\\p5\\FirefoxPortable\\App\\Firefox64\\firefox.exe";
@@ -923,7 +919,8 @@ public class MyWallapopTests {
 		//Calcamos la opción
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/offer/add')]");
 		elementos.get(0).click();
-		//Estamos en español
+		//Estamos en español,Comprobamos estar en la página adecuada
+		PO_View.checkElement(driver, "text", "Publicar");
 		SeleniumUtils.textoPresentePagina(driver, "Añadir");
 		SeleniumUtils.textoPresentePagina(driver, "Título");
 		SeleniumUtils.textoPresentePagina(driver, "Detalles");
@@ -931,6 +928,7 @@ public class MyWallapopTests {
 		SeleniumUtils.textoPresentePagina(driver, "Fecha");
 		//Cambiamos a inglées y probamos
 		PO_NavView.changeIdiom(driver, "btnEnglish");
+		PO_View.checkElement(driver, "text", "Post");
 		SeleniumUtils.textoPresentePagina(driver, "Add");
 		SeleniumUtils.textoPresentePagina(driver, "Title");
 		SeleniumUtils.textoPresentePagina(driver, "Details");
@@ -938,6 +936,7 @@ public class MyWallapopTests {
 		SeleniumUtils.textoPresentePagina(driver, "Date");
 		//Volvemos a español y probamos
 		PO_NavView.changeIdiom(driver, "btnSpanish");
+		PO_View.checkElement(driver, "text", "Publicar");
 		SeleniumUtils.textoPresentePagina(driver, "Añadir");
 		SeleniumUtils.textoPresentePagina(driver, "Título");
 		SeleniumUtils.textoPresentePagina(driver, "Detalles");
