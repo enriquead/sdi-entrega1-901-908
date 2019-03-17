@@ -70,7 +70,7 @@ public class MyWallapopTests {
 	// static String Geckdriver024 = "/Users/delacal/selenium/geckodriver024mac";
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
-	static String URL = "http://localhost:8090";
+	static String URL = "http://localhost:8080";
 
 	public static WebDriver getDriver(String PathFirefox, String Geckdriver) {
 		System.setProperty("webdriver.firefox.bin", PathFirefox);

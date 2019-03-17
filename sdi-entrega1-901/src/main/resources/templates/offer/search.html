@@ -21,6 +21,7 @@
 		<div th:include="fragments/userIdent"></div>
 			<table class="table table-hover" >
 				<span class="text-danger" th:if="${failedPromotion==true}"  th:text="#{message.promotion.fail}"></span>
+				<span class="text-danger" th:if="${fail==true}"  th:text="#{message.buy.fail}"></span>
 				<thead>
 					<tr>
 						<th th:text="#{offer.title}">Título</th>

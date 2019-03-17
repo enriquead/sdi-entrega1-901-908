@@ -28,5 +28,10 @@ public interface OffersRepository extends CrudRepository<Offer, Long>{
 	
 
 	Page<Offer> findAll(Pageable pageable);
+
+	@Modifying
+	@Transactional
+	@Query("UPDATE Offer o SET promoted = false WHERE o=?1")
+	void setNotPromoted(Offer offer);
  
 }

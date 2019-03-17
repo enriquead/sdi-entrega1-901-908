@@ -74,4 +74,9 @@ public class OffersService {
 		return false;
 	}
 
+	public void disablePromotion(Offer offer) {
+		offersRepository.setNotPromoted(offer);
+		
+	}
+
 }
