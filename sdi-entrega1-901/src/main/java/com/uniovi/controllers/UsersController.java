@@ -66,7 +66,7 @@ public class UsersController {
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@Validated User user, BindingResult result) {
 		signUpValidator.validate(user, result);
-		log.info("Intento de registro",((User) httpSession.getAttribute("loggedUser")).getMail());
+		log.info("Intento de registro");
 		if (result.hasErrors()) {
 			return "signup";
 		}
@@ -88,7 +88,9 @@ public class UsersController {
 		String mail = auth.getName();
 		User activeUser = usersService.getUserByMail(mail);
 		httpSession.setAttribute("loggedUser", activeUser);
-		log.info("{} está en el sistema",((User) httpSession.getAttribute("loggedUser")).getMail());
+		if((User) httpSession.getAttribute("loggedUser")!=null) {
+			log.info("{} está en el sistema",((User) httpSession.getAttribute("loggedUser")).getMail());
+		}
 		model.addAttribute("offerList", offersService.getPromoted());
 		return "home";
 	}
